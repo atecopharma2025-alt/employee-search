@@ -1,148 +1,180 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بيانات الموظفين</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  * {
-    box-sizing: border-box;
-    font-family: 'Tajawal', sans-serif;
-  }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-    color: white;
-    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    transition: background 0.5s ease;
-  }
-  @media (prefers-color-scheme: light) {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بيانات الموظفين</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
     body {
-      background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      color: #333;
+      color: white;
+      transition: background 0.5s ease;
     }
-  }
-  @keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
-  h1 {
-    margin-bottom: 20px;
-    font-weight: 700;
-    text-align: center;
-  }
-  .search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    min-width: 200px;
-  }
-  button {
-    padding: 10px 20px;
-    background: #ff6f61;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-  button:hover {
-    background: #ff8f81;
-    box-shadow: 0 0 10px #ff6f61;
-  }
-  .card {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 20px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    margin-top: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-  }
-  .card.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .data-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    gap: 8px;
-  }
-  .icon {
-    font-size: 1.2rem;
-  }
-</style>
+    @media (prefers-color-scheme: light) {
+      body {
+        background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #222;
+      }
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+    header img {
+      height: 70px;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #ff8f81;
+      box-shadow: 0 0 10px #ff6f61;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      margin-top: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .data-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .icon {
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
+
+  <header>
+    <img src="logo.png" alt="شعار الشركة">
+  </header>
+
   <h1>بحث بيانات الموظف</h1>
+
   <div class="search-box">
     <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
     <button onclick="searchData()">بحث</button>
   </div>
+
   <div id="result"></div>
 
-<script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
 
-async function searchData() {
-  const code = document.getElementById("codeInput").value.trim();
-  const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = "";
+    async function searchData() {
+      const code = document.getElementById("codeInput").value.trim();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
 
-  if (!code) {
-    resultDiv.innerHTML = "<p>من فضلك أدخل كود الموظف</p>";
-    return;
-  }
+      if (!code) {
+        resultDiv.innerHTML = "<p>من فضلك أدخل كود الموظف</p>";
+        return;
+      }
 
-  try {
-    const response = await fetch(sheetURL);
-    const data = await response.text();
-    const rows = data.split("\n").map(r => r.split(","));
-    const headers = rows[0];
-    const match = rows.find(row => row[0].trim() === code);
+      try {
+        const response = await fetch(sheetURL);
+        const data = await response.text();
+        const rows = data.split("\n").map(r => r.split(","));
+        const headers = rows[0];
+        const match = rows.find(row => row[0].trim() === code);
 
-    if (match) {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      headers.forEach((header, index) => {
-        const rowDiv = document.createElement("div");
-        rowDiv.classList.add("data-row");
-        rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[index]}`;
-        card.appendChild(rowDiv);
-      });
-      resultDiv.appendChild(card);
-      setTimeout(() => card.classList.add("show"), 50);
-    } else {
-      resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
+        if (match) {
+          const card = document.createElement("div");
+          card.classList.add("card");
+
+          headers.forEach((header, index) => {
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("data-row");
+            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[index] || ""}`;
+            card.appendChild(rowDiv);
+          });
+
+          resultDiv.appendChild(card);
+          setTimeout(() => card.classList.add("show"), 50);
+        } else {
+          resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
+        }
+      } catch (error) {
+        resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
+      }
     }
-  } catch (error) {
-    resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
-  }
-}
-</script>
+
+    // تشغيل البحث بزر Enter
+    document.getElementById("codeInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        searchData();
+      }
+    });
+  </script>
 </body>
 </html>
