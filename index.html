@@ -6,58 +6,78 @@
     <title>بحث بيانات الموظفين</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f9fc;
-            text-align: center;
+            font-family: 'Tahoma', sans-serif;
+            background: linear-gradient(to bottom, #00AEEF, #007b9e);
             margin: 0;
             padding: 0;
+            color: #333;
         }
         header {
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 20px;
         }
         header img {
-            height: 60px;
+            height: 70px;
         }
         main {
             max-width: 500px;
             margin: auto;
             padding: 20px;
         }
+        h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
         input {
-            width: 70%;
-            padding: 10px;
+            flex: 1;
+            padding: 12px;
             font-size: 16px;
-            border: 2px solid #00AEEF;
+            border: none;
             border-radius: 8px;
             outline: none;
         }
         button {
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 16px;
-            background-color: #00AEEF;
-            color: white;
+            background-color: #ffffff;
+            color: #00AEEF;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin-left: 5px;
+            font-weight: bold;
         }
         button:hover {
-            background-color: #008bbd;
+            background-color: #e5f9ff;
         }
         .card {
             background-color: white;
-            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 15px;
             text-align: right;
+            animation: fadeIn 0.4s ease-in-out;
         }
         .not-found {
-            color: red;
+            background-color: rgba(255,0,0,0.1);
+            color: #c00;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            text-align: center;
             font-weight: bold;
-            margin-top: 20px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -68,10 +88,11 @@
 </header>
 
 <main>
-    <h2>ابحث عن بياناتك</h2>
-    <input type="text" id="codeInput" placeholder="ادخل الكود">
-    <button onclick="searchData()">بحث</button>
-
+    <h2>مرحبا بك، أدخل الكود للبحث عن بياناتك</h2>
+    <div class="search-box">
+        <input type="text" id="codeInput" placeholder="ادخل الكود" onkeypress="if(event.key === 'Enter'){ searchData(); }">
+        <button onclick="searchData()">بحث</button>
+    </div>
     <div id="result"></div>
 </main>
 
@@ -102,7 +123,7 @@
             cardHtml += '</div>';
             resultDiv.innerHTML = cardHtml;
         } else {
-            resultDiv.innerHTML = '<div class="not-found">الكود غير موجود</div>';
+            resultDiv.innerHTML = '<div class="not-found">⚠️ الكود غير موجود</div>';
         }
     }
 </script>
