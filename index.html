@@ -1,180 +1,148 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بحث بيانات الموظفين</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gradient-light: linear-gradient(-45deg, #00AEEF, #007b9e, #004e63, #009fb7);
-            --gradient-dark: linear-gradient(-45deg, #1a1a1a, #0d0d0d, #262626, #333333);
-            --button-light: linear-gradient(45deg, #ffcc00, #ff8800);
-            --button-dark: linear-gradient(45deg, #00ffcc, #0066ff);
-            --text-light: #fff;
-            --text-dark: #f5f5f5;
-        }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--gradient-light);
-            background-size: 400% 400%;
-            animation: gradientMove 10s ease infinite;
-            color: var(--text-light);
-            transition: all 0.5s ease-in-out;
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: var(--gradient-dark);
-                color: var(--text-dark);
-            }
-            button {
-                background: var(--button-dark);
-                box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
-            }
-            button:hover {
-                box-shadow: 0 0 25px rgba(0, 255, 204, 1);
-            }
-            .card {
-                background-color: rgba(255,255,255,0.05);
-            }
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        header {
-            text-align: center;
-            padding: 20px;
-        }
-        header img {
-            height: 70px;
-        }
-        main {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        .search-box {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        input {
-            flex: 1;
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 50px;
-            outline: none;
-            text-align: center;
-        }
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-            background: var(--button-light);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 200, 0, 0.7);
-            transition: all 0.3s ease-in-out;
-        }
-        button:hover {
-            box-shadow: 0 0 25px rgba(255, 200, 0, 1);
-            transform: scale(1.05);
-        }
-        .card {
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            animation: fadeSlide 0.5s ease forwards;
-        }
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card p {
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .card p strong {
-            color: #ffe600;
-        }
-        .not-found {
-            background-color: rgba(255,0,0,0.2);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-            animation: fadeSlide 0.5s ease forwards;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بيانات الموظفين</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Tajawal', sans-serif;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    color: white;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    transition: background 0.5s ease;
+  }
+  @media (prefers-color-scheme: light) {
+    body {
+      background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #333;
+    }
+  }
+  @keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+  h1 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    min-width: 200px;
+  }
+  button {
+    padding: 10px 20px;
+    background: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  button:hover {
+    background: #ff8f81;
+    box-shadow: 0 0 10px #ff6f61;
+  }
+  .card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .card.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .data-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+  .icon {
+    font-size: 1.2rem;
+  }
+</style>
 </head>
 <body>
-
-<header>
-    <img src="logo.png" alt="شعار الشركة">
-</header>
-
-<main>
-    <h2>🔍 أدخل الكود للبحث عن بياناتك</h2>
-    <div class="search-box">
-        <input type="text" id="codeInput" placeholder="ادخل الكود" onkeypress="if(event.key === 'Enter'){ searchData(); }">
-        <button onclick="searchData()">بحث</button>
-    </div>
-    <div id="result"></div>
-</main>
+  <h1>بحث بيانات الموظف</h1>
+  <div class="search-box">
+    <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
+    <button onclick="searchData()">بحث</button>
+  </div>
+  <div id="result"></div>
 
 <script>
-    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
 
-    async function fetchData() {
-        const response = await fetch(csvUrl);
-        const data = await response.text();
-        const rows = data.split("\n").map(row => row.split(","));
-        return rows;
+async function searchData() {
+  const code = document.getElementById("codeInput").value.trim();
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "";
+
+  if (!code) {
+    resultDiv.innerHTML = "<p>من فضلك أدخل كود الموظف</p>";
+    return;
+  }
+
+  try {
+    const response = await fetch(sheetURL);
+    const data = await response.text();
+    const rows = data.split("\n").map(r => r.split(","));
+    const headers = rows[0];
+    const match = rows.find(row => row[0].trim() === code);
+
+    if (match) {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      headers.forEach((header, index) => {
+        const rowDiv = document.createElement("div");
+        rowDiv.classList.add("data-row");
+        rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[index]}`;
+        card.appendChild(rowDiv);
+      });
+      resultDiv.appendChild(card);
+      setTimeout(() => card.classList.add("show"), 50);
+    } else {
+      resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
     }
-
-    async function searchData() {
-        const code = document.getElementById("codeInput").value.trim();
-        const rows = await fetchData();
-        const headers = rows[0];
-        const foundRow = rows.find(row => row[0] === code);
-
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = "";
-
-        if (foundRow) {
-            let cardHtml = '<div class="card">';
-            for (let i = 0; i < headers.length; i++) {
-                cardHtml += `<p>📌 <strong>${headers[i]}:</strong> ${foundRow[i]}</p>`;
-            }
-            cardHtml += '</div>';
-            resultDiv.innerHTML = cardHtml;
-        } else {
-            resultDiv.innerHTML = '<div class="not-found">⚠️ الكود غير موجود</div>';
-        }
-    }
+  } catch (error) {
+    resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
+  }
+}
 </script>
-
 </body>
 </html>
