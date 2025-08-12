@@ -4,14 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بحث بيانات الموظفين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --gradient-light: linear-gradient(-45deg, #00AEEF, #007b9e, #004e63, #009fb7);
+            --gradient-dark: linear-gradient(-45deg, #1a1a1a, #0d0d0d, #262626, #333333);
+            --button-light: linear-gradient(45deg, #ffcc00, #ff8800);
+            --button-dark: linear-gradient(45deg, #00ffcc, #0066ff);
+            --text-light: #fff;
+            --text-dark: #f5f5f5;
+        }
+
         body {
-            font-family: 'Tahoma', sans-serif;
-            background: linear-gradient(to bottom, #00AEEF, #007b9e);
+            font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 0;
-            color: #333;
+            background: var(--gradient-light);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
+            color: var(--text-light);
+            transition: all 0.5s ease-in-out;
         }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--gradient-dark);
+                color: var(--text-dark);
+            }
+            button {
+                background: var(--button-dark);
+                box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
+            }
+            button:hover {
+                box-shadow: 0 0 25px rgba(0, 255, 204, 1);
+            }
+            .card {
+                background-color: rgba(255,255,255,0.05);
+            }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         header {
             text-align: center;
             padding: 20px;
@@ -25,9 +61,9 @@
             padding: 20px;
         }
         h2 {
-            color: white;
             text-align: center;
             margin-bottom: 20px;
+            font-weight: 700;
         }
         .search-box {
             display: flex;
@@ -40,44 +76,56 @@
             padding: 12px;
             font-size: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             outline: none;
+            text-align: center;
         }
         button {
             padding: 12px 20px;
             font-size: 16px;
-            background-color: #ffffff;
-            color: #00AEEF;
+            background: var(--button-light);
+            color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 200, 0, 0.7);
+            transition: all 0.3s ease-in-out;
         }
         button:hover {
-            background-color: #e5f9ff;
+            box-shadow: 0 0 25px rgba(255, 200, 0, 1);
+            transform: scale(1.05);
         }
         .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 15px;
             padding: 15px;
             margin-top: 15px;
-            text-align: right;
-            animation: fadeIn 0.4s ease-in-out;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: fadeSlide 0.5s ease forwards;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card p strong {
+            color: #ffe600;
         }
         .not-found {
-            background-color: rgba(255,0,0,0.1);
-            color: #c00;
+            background-color: rgba(255,0,0,0.2);
             border-radius: 8px;
             padding: 10px;
             margin-top: 15px;
             text-align: center;
             font-weight: bold;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: fadeSlide 0.5s ease forwards;
         }
     </style>
 </head>
@@ -88,7 +136,7 @@
 </header>
 
 <main>
-    <h2>مرحبا بك، أدخل الكود للبحث عن بياناتك</h2>
+    <h2>🔍 أدخل الكود للبحث عن بياناتك</h2>
     <div class="search-box">
         <input type="text" id="codeInput" placeholder="ادخل الكود" onkeypress="if(event.key === 'Enter'){ searchData(); }">
         <button onclick="searchData()">بحث</button>
@@ -118,7 +166,7 @@
         if (foundRow) {
             let cardHtml = '<div class="card">';
             for (let i = 0; i < headers.length; i++) {
-                cardHtml += `<p><strong>${headers[i]}:</strong> ${foundRow[i]}</p>`;
+                cardHtml += `<p>📌 <strong>${headers[i]}:</strong> ${foundRow[i]}</p>`;
             }
             cardHtml += '</div>';
             resultDiv.innerHTML = cardHtml;
