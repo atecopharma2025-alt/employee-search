@@ -44,32 +44,7 @@
     }
 
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    h1 { margin-bottom: 10px; font-weight: 700; text-align: center; font-size: clamp(1.5rem, 4vw, 2rem); }
-    .sub-title {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      margin-bottom: 8px;
-      text-align: center;
-      color: #ddd;
-    }
-    .welcome-message {
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      margin-bottom: 20px;
-      text-align: center;
-      color: #ffd98e;
-      text-shadow: 0 0 6px rgba(255, 217, 142, 0.6);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #ffd98e;
-      width: 0;
-      animation: typing 4s steps(50, end) forwards, blink 0.7s step-end infinite;
-    }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
+    h1 { margin-bottom: 10px; font-weight: 700; text-align: center; font-size: clamp(1.4rem, 4vw, 2rem); }
 
     .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
     input {
@@ -141,9 +116,36 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     .card.hide {
       opacity: 0;
       transform: translateY(20px);
+    }
+
+    /* رسالة الترحيب */
+    .welcome-message {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ffcc80;
+      text-shadow: 0 0 6px rgba(255, 204, 128, 0.6);
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeSlide 2s ease forwards, fadeOut 1s ease forwards 6s;
+    }
+
+    @keyframes fadeSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
     }
   </style>
 </head>
@@ -155,8 +157,7 @@
       <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
 
-    <h1 class="main-title">ATECO Pharma HR Department</h1>
-    <p class="sub-title">خدمة الاستعلام عن الرصيد والمعلومات</p>
+    <h1>ATECO Pharma HR Department</h1>
     <p class="welcome-message">مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.</p>
 
     <div class="search-box">
