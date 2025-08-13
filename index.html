@@ -1,76 +1,243 @@
-<script>
-const apiURL = "https://script.google.com/macros/s/AKfycbwzRoFDEI8L9nznDjX0xRuLcmGvF4lVks3rM6uJVfQZ0y-6RNe5b8TCKSdMw0YTIvx9BQ/exec";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATECO Pharma HR Department</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start; padding: 20px;
+      color: white; position: relative;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+      background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+      overflow-x: hidden;
+    }
+    @media (prefers-color-scheme: light) {
+      body {
+        background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
+        background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #333;
+      }
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-const icons = {
-  "الاسم": "👤",
-  "تاريخ التعيين": "🗓",
-  "ساعات": "🕐",
-  "القسم": "🏢",
-  "المسمى الوظيفي": "💼",
-  "العنوان": "📍",
-  "المدير المباشر": "🧑‍💼"
-};
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      background-image: url("pattern.png");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: 0;
+      animation: movePattern 60s linear infinite;
+    }
+    @keyframes movePattern {
+      from { background-position: 0 0; }
+      to   { background-position: 1000px 600px; }
+    }
 
-async function searchData() {
-  const codeInput = document.getElementById("codeInput");
-  const code = codeInput.value.trim();
-  const resultDiv = document.getElementById("result");
+    .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+    h1.main-title { 
+      margin-bottom: 8px; 
+      font-weight: 700; 
+      text-align: center;
+      font-size: clamp(1.8rem, 5vw, 2.2rem);
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-  resultDiv.innerHTML = "";
+    .subtitle {
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      margin-bottom: 6px;
+      color: #cc6600;
+      text-align: center;
+      font-weight: bold;
+    }
 
-  // لو الحقل فاضي
-  if (!code) {
-    codeInput.classList.add("shake");
-    setTimeout(() => codeInput.classList.remove("shake"), 400);
-    resultDiv.innerHTML = "<p style='color:orange;'>من فضلك أدخل كود الموظف</p>";
-    return;
-  }
+    .welcome-message {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      margin-bottom: 20px;
+      text-align: center;
+      color: #cc5500;
+      text-shadow: 0 0 6px rgba(204, 85, 0, 0.6);
+      animation: blinkMessage 7s ease-in-out infinite;
+    }
+    @keyframes blinkMessage {
+      0%, 100% { opacity: 0; transform: translateY(10px); }
+      20%, 80% { opacity: 1; transform: translateY(0); }
+    }
 
-  // إخفاء البطاقة القديمة إن وجدت
-  const oldCard = resultDiv.querySelector(".card.show");
-  if (oldCard) {
-    oldCard.classList.remove("show");
-    oldCard.classList.add("hide");
-    await new Promise(res => setTimeout(res, 400));
-    resultDiv.innerHTML = "";
-  }
+    .search-box { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.08); backdrop-filter: blur(8px); padding: 15px; border-radius: 12px; }
+    input {
+      padding: 10px; font-size: 1rem; border-radius: 8px; border: none; outline: none; min-width: 200px;
+    }
+    button {
+      padding: 10px 20px; background: #ff6f61; color: white; border: none;
+      border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    button:hover {
+      background: #ff8f81;
+      box-shadow: 0 0 12px #ff6f61, 0 0 30px rgba(255,111,97,0.5);
+    }
 
-  // عرض حالة البحث
-  resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
+    .card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px); border-radius: 16px;
+      padding: 20px; width: clamp(280px, 80%, 400px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      margin-top: 10px; opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
+    }
+    .card.show { opacity: 1; transform: translateY(0); }
+    .card.hide { opacity: 0; transform: translateY(20px); }
 
-  try {
-    const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
-    const result = await response.json();
+    .data-row { display: flex; align-items: center; margin-bottom: 8px; gap: 8px; }
+    .icon { font-size: 1.2rem; }
 
-    resultDiv.innerHTML = "";
+    .loading {
+      font-size: 1.1rem; margin-top: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .loading span {
+      width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent;
+      border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0);}
+      100% {transform: rotate(360deg);}
+    }
 
-    if (result.ok && result.data) {
-      const card = document.createElement("div");
-      card.classList.add("card");
+    .header-logo {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+    .header-logo img {
+      max-width: 220px;
+      height: auto;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
 
-      for (const header in result.data) {
-        if (!result.data[header]) continue; // تجاهل الحقول الفارغة
-        const rowDiv = document.createElement("div");
-        rowDiv.classList.add("data-row");
-        rowDiv.innerHTML = `<span class="icon">${icons[header] || "📌"}</span> <strong>${header}:</strong> ${result.data[header]}`;
-        card.appendChild(rowDiv);
+    /* حركة الاهتزاز */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    .shake {
+      animation: shake 0.4s;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <div class="content">
+    <div class="header-logo">
+      <img src="logo.png" alt="ATECO Pharma Logo">
+    </div>
+
+    <h1 class="main-title">HR Department</h1>
+    <div class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</div>
+    <div class="welcome-message">مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.</div>
+
+    <div class="search-box">
+      <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
+      <button onclick="searchData()">بحث</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const apiURL = "https://script.google.com/macros/s/AKfycbwzRoFDEI8L9nznDjX0xRuLcmGvF4lVks3rM6uJVfQZ0y-6RNe5b8TCKSdMw0YTIvx9BQ/exec";
+
+    const icons = {
+      "الاسم": "👤",
+      "تاريخ التعيين": "🗓",
+      "ساعات": "🕐",
+      "القسم": "🏢",
+      "المسمى الوظيفي": "💼",
+      "العنوان": "📍",
+      "المدير المباشر": "🧑‍💼"
+    };
+
+    async function searchData() {
+      const codeInput = document.getElementById("codeInput");
+      const code = codeInput.value.trim();
+      const resultDiv = document.getElementById("result");
+
+      resultDiv.innerHTML = "";
+
+      // لو الحقل فاضي
+      if (!code) {
+        codeInput.classList.add("shake");
+        setTimeout(() => codeInput.classList.remove("shake"), 400);
+        resultDiv.innerHTML = "<p style='color:orange;'>من فضلك أدخل كود الموظف</p>";
+        return;
       }
 
-      resultDiv.appendChild(card);
-      setTimeout(() => card.classList.add("show"), 50);
-    } else {
-      resultDiv.innerHTML = "<p style='color:red;'>لم يتم العثور على الموظف</p>";
+      // إخفاء البطاقة القديمة
+      const oldCard = resultDiv.querySelector(".card.show");
+      if (oldCard) {
+        oldCard.classList.remove("show");
+        oldCard.classList.add("hide");
+        await new Promise(res => setTimeout(res, 400));
+        resultDiv.innerHTML = "";
+      }
+
+      // جاري البحث
+      resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
+
+      try {
+        const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
+        const result = await response.json();
+
+        resultDiv.innerHTML = "";
+
+        if (result.ok && result.data) {
+          const card = document.createElement("div");
+          card.classList.add("card");
+
+          for (const header in result.data) {
+            if (!result.data[header]) continue;
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("data-row");
+            rowDiv.innerHTML = `<span class="icon">${icons[header] || "📌"}</span> <strong>${header}:</strong> ${result.data[header]}`;
+            card.appendChild(rowDiv);
+          }
+
+          resultDiv.appendChild(card);
+          setTimeout(() => card.classList.add("show"), 50);
+        } else {
+          resultDiv.innerHTML = "<p style='color:red;'>لم يتم العثور على الموظف</p>";
+        }
+      } catch (error) {
+        resultDiv.innerHTML = "<p style='color:red;'>حدث خطأ أثناء جلب البيانات، حاول لاحقًا</p>";
+        console.error(error);
+      }
+
+      codeInput.value = "";
     }
-  } catch (error) {
-    resultDiv.innerHTML = "<p style='color:red;'>حدث خطأ أثناء جلب البيانات، حاول لاحقًا</p>";
-    console.error(error);
-  }
 
-  // تفريغ الحقل بعد البحث
-  codeInput.value = "";
-}
-
-document.getElementById("codeInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") searchData();
-});
-</script>
+    document.getElementById("codeInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") searchData();
+    });
+  </script>
+</body>
+</html>
