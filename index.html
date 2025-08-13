@@ -1,145 +1,180 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATECO HR Department</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATECO HR Department</title>
+<style>
     body {
-      font-family: 'Cairo', sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 20px;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #002B5B, #005F73);
+        color: white;
+        overflow-x: hidden;
     }
-    @keyframes fadeUpLoop {
-      0% { opacity: 0; transform: translateY(20px); }
-      20% { opacity: 1; transform: translateY(0); }
-      80% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-10px); }
+
+    /* خلفية اللوجوهات المتحركة */
+    .logo-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+        opacity: 0.07;
     }
-    input {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      width: 250px;
-      margin: 10px;
+    .logo-bg img {
+        position: absolute;
+        width: 120px;
+        animation: floatLogo 40s infinite ease-in-out;
     }
-    button {
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      background: #facc15;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
+    @keyframes floatLogo {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-50px) rotate(180deg); }
+        100% { transform: translateY(0) rotate(360deg); }
     }
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      width: 90%;
-      display: none; /* مخفي في البداية */
+
+    header {
+        text-align: center;
+        padding: 20px;
     }
-    th, td {
-      border: 1px solid #475569;
-      padding: 10px;
+    header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+        font-weight: bold;
     }
-    th {
-      background: #1e293b;
+    header h2 {
+        font-size: 1.2rem;
+        font-weight: normal;
+        margin-bottom: 10px;
     }
-  </style>
+    header p {
+        font-size: 1rem;
+        opacity: 0.85;
+    }
+
+    /* مربع البحث */
+    .search-container {
+        text-align: center;
+        margin-top: 40px;
+    }
+    .search-box {
+        padding: 15px;
+        width: 300px;
+        border-radius: 30px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        backdrop-filter: blur(5px);
+    }
+    .search-btn {
+        padding: 15px 25px;
+        margin-left: 10px;
+        border-radius: 30px;
+        border: none;
+        font-size: 1rem;
+        background: linear-gradient(45deg, #008891, #005F73);
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .search-btn:hover {
+        transform: scale(1.05);
+    }
+
+    /* الكارت */
+    .card {
+        max-width: 400px;
+        margin: 30px auto;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+        animation: fadeIn 0.6s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .card h3 {
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+    }
+    .card p {
+        margin: 5px 0;
+    }
+
+    .error {
+        text-align: center;
+        color: #ffb3b3;
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
 
-  <!-- اللوجو -->
-  <img src="header-logo.png" alt="ATECO Logo" style="height:60px;" />
+<!-- خلفية اللوجوهات -->
+<div class="logo-bg" id="logoBackground"></div>
 
-  <!-- العنوان -->
-  <h1 style="font-weight:700; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
-    ATECO HR Department
-  </h1>
+<header>
+    <h1>ATECO HR Department</h1>
+    <h2>خدمة الاستعلام عن الرصيد والمعلومات</h2>
+    <p>مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات</p>
+</header>
 
-  <p style="margin-top:-10px; color:#94a3b8; font-size:18px;">
-    خدمة الاستعلام عن الرصيد والمعلومات
-  </p>
+<div class="search-container">
+    <input type="text" id="searchCode" class="search-box" placeholder="أدخل الكود هنا">
+    <button class="search-btn" onclick="searchData()">بحث</button>
+</div>
 
-  <!-- جملة الترحيب -->
-  <p style="
-    margin-top:5px; 
-    color:#facc15; 
-    font-size:20px; 
-    font-weight:600; 
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    animation: fadeUpLoop 5s ease-in-out infinite;
-  ">
-    مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات
-  </p>
+<div id="result"></div>
 
-  <!-- مربع البحث -->
-  <input type="text" id="searchCode" placeholder="أدخل الكود الخاص بك">
-  <button onclick="searchData()">بحث</button>
+<script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
 
-  <!-- الجدول -->
-  <table id="dataTable">
-    <thead id="tableHead"></thead>
-    <tbody id="tableBody"></tbody>
-  </table>
-
-  <script>
-    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
-
-    async function searchData() {
-      const code = document.getElementById("searchCode").value.trim();
-      if (!code) {
-        alert("من فضلك أدخل الكود");
+async function searchData() {
+    const code = document.getElementById("searchCode").value.trim();
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+    
+    if (!code) {
+        resultDiv.innerHTML = `<p class="error">من فضلك أدخل الكود</p>`;
         return;
-      }
-
-      const response = await fetch(sheetURL);
-      const data = await response.text();
-      const rows = data.split("\n").map(r => r.split(","));
-
-      const headers = rows[0];
-      const filtered = rows.filter((row, index) => index !== 0 && row[0] === code);
-
-      const table = document.getElementById("dataTable");
-      const thead = document.getElementById("tableHead");
-      const tbody = document.getElementById("tableBody");
-
-      thead.innerHTML = "";
-      tbody.innerHTML = "";
-
-      if (filtered.length === 0) {
-        alert("لم يتم العثور على بيانات لهذا الكود");
-        table.style.display = "none";
-        return;
-      }
-
-      // عرض العناوين
-      let headRow = document.createElement("tr");
-      headers.forEach(h => {
-        let th = document.createElement("th");
-        th.textContent = h;
-        headRow.appendChild(th);
-      });
-      thead.appendChild(headRow);
-
-      // عرض الصف المطلوب
-      filtered.forEach(row => {
-        let tr = document.createElement("tr");
-        row.forEach(cell => {
-          let td = document.createElement("td");
-          td.textContent = cell;
-          tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-      });
-
-      table.style.display = "table";
     }
-  </script>
+    
+    const res = await fetch(sheetURL);
+    const text = await res.text();
+    const rows = text.split("\n").map(r => r.split(","));
+    const headers = rows[0];
+    const match = rows.find(row => row[0] && row[0].trim() === code);
+    
+    if (match) {
+        let content = `<div class="card"><h3>بيانات الموظف</h3>`;
+        headers.forEach((h, i) => {
+            content += `<p><strong>${h}:</strong> ${match[i] || ""}</p>`;
+        });
+        content += `</div>`;
+        resultDiv.innerHTML = content;
+    } else {
+        resultDiv.innerHTML = `<p class="error">لم يتم العثور على الكود</p>`;
+    }
+}
+
+// إنشاء اللوجوهات المتحركة
+const logoContainer = document.getElementById("logoBackground");
+for (let i = 0; i < 8; i++) {
+    const img = document.createElement("img");
+    img.src = "logo-moving.png"; // اسم ملف اللوجو المتحرك
+    img.style.left = Math.random() * 100 + "%";
+    img.style.top = Math.random() * 100 + "%";
+    img.style.animationDuration = (30 + Math.random() * 20) + "s"; // حركة هادئة
+    logoContainer.appendChild(img);
+}
+</script>
+
 </body>
 </html>
