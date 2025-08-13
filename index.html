@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HR Department</title>
+  <title>ATECO Pharma HR Department</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
@@ -44,43 +44,37 @@
     }
 
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    h1 { 
-      margin-bottom: 5px; 
+    h1.main-title { 
+      margin-bottom: 8px; 
       font-weight: 700; 
-      text-align: center; 
-      font-size: clamp(1.4rem, 5vw, 2rem);
+      text-align: center;
+      font-size: clamp(1.8rem, 5vw, 2.2rem);
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
+    /* النص الصغير تحت العنوان */
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
-      margin-bottom: 10px;
-      color: #ddd;
+      margin-bottom: 6px;
+      color: #cc6600; /* لون غامق */
       text-align: center;
+      font-weight: bold;
     }
 
+    /* الرسالة الترحيبية */
     .welcome-message {
       font-size: clamp(0.9rem, 2.5vw, 1.1rem);
       margin-bottom: 20px;
       text-align: center;
-      color: #ff8800; /* لون غامق */
-      text-shadow: 0 0 6px rgba(255, 136, 0, 0.6);
-      opacity: 0;
-      transform: translateY(15px);
-      animation: fadeSlide 2s ease forwards, fadeOut 1s ease forwards 6s;
+      color: #cc5500; /* لون أغمق */
+      text-shadow: 0 0 6px rgba(204, 85, 0, 0.6);
+      animation: blinkMessage 3s ease-in-out infinite;
     }
-
-    @keyframes fadeSlide {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
+    @keyframes blinkMessage {
+      0%, 100% { opacity: 0; transform: translateY(10px); }
+      20%, 80% { opacity: 1; transform: translateY(0); }
     }
 
     .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -148,12 +142,8 @@
       background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
       border: 1px solid rgba(255,255,255,0.2);
     }
-    h1 {
-      background: linear-gradient(90deg, #ff8f81, #ff6f61);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
 
+    /* --- CSS إضافي للتحسينات --- */
     .card.hide {
       opacity: 0;
       transform: translateY(20px);
@@ -165,12 +155,12 @@
 
   <div class="content">
     <div class="header-logo">
-      <img src="logo.png" alt="HR Department Logo">
+      <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
 
-    <h1>HR Department</h1>
-    <p class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</p>
-    <p class="welcome-message">مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.</p>
+    <h1 class="main-title">HR Department</h1>
+    <div class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</div>
+    <div class="welcome-message">مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.</div>
 
     <div class="search-box">
       <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
@@ -225,9 +215,8 @@
     document.getElementById("codeInput").addEventListener("keypress", function(e) {
       if (e.key === "Enter") searchData();
     });
-  </script>
 
-  <script>
+    /* تحسين الأيقونات */
     const icons = {
       "الاسم": "👤",
       "تاريخ التعيين": "🗓",
@@ -242,6 +231,7 @@
     searchData = async function() {
       const resultDiv = document.getElementById("result");
 
+      // إخفاء البطاقة السابقة
       const oldCard = resultDiv.querySelector(".card.show");
       if (oldCard) {
         oldCard.classList.remove("show");
