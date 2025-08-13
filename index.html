@@ -213,9 +213,9 @@
         resultDiv.innerHTML = "<p>من فضلك أدخل كود الموظف</p>";
         return;
       }
-      resultDiv.innerHTML = <div class="loading"><span></span> جاري البحث...</div>;
+      resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
       try {
-        const response = await fetch(${apiURL}?code=${encodeURIComponent(code)});
+        const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
         const result = await response.json();
         resultDiv.innerHTML = "";
         if (result.ok && result.data) {
@@ -224,7 +224,7 @@
           for (const header in result.data) {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("data-row");
-            rowDiv.innerHTML = <span class="icon">📌</span> <strong>${header}:</strong> ${result.data[header] ?? ""};
+            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${result.data[header] ?? ""}`;
             card.appendChild(rowDiv);
           }
           resultDiv.appendChild(card);
@@ -272,4 +272,4 @@
     };
   </script>
 </body>
-</html> 
+</html>
