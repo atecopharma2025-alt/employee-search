@@ -144,17 +144,57 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
+    /* ===== تعديل شكل البطاقة ===== */
     .card {
-      background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 16px;
-      padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      margin-top: 10px; opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
-      background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 20px 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.25);
+      margin-top: 15px;
+      opacity: 0;
+      transform: translateY(25px);
+      transition: all 0.5s ease;
     }
-    .card.show { opacity: 1; transform: translateY(0); }
-    .card.hide { opacity: 0; transform: translateY(20px); }
-    .data-row { display: flex; align-items: center; margin-bottom: 8px; gap: 8px; }
-    .icon { font-size: 1.2rem; }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .data-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+    }
+    .data-row:last-child {
+      border-bottom: none;
+    }
+    .icon {
+      font-size: 1.4rem;
+      color: #ff6f61;
+      flex-shrink: 0;
+    }
+    .data-row strong {
+      color: #ffd5cc;
+    }
+    .data-row span,
+    .data-row strong {
+      font-size: 1rem;
+    }
     .loading {
       font-size: 1.1rem; margin-top: 20px;
       display: flex; align-items: center; gap: 8px;
@@ -221,6 +261,9 @@
         if (result.ok && result.data) {
           const card = document.createElement("div");
           card.classList.add("card");
+          const cardTitle = document.createElement("h2");
+          cardTitle.textContent = "بيانات الموظف";
+          card.appendChild(cardTitle);
           for (const header in result.data) {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("data-row");
