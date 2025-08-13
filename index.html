@@ -54,21 +54,19 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* النص الصغير تحت العنوان */
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
       margin-bottom: 6px;
-      color: #cc6600; /* لون غامق */
+      color: #cc6600;
       text-align: center;
       font-weight: bold;
     }
 
-    /* الرسالة الترحيبية */
     .welcome-message {
       font-size: clamp(0.9rem, 2.5vw, 1.1rem);
       margin-bottom: 20px;
       text-align: center;
-      color: #cc5500; /* لون أغمق */
+      color: #cc5500;
       text-shadow: 0 0 6px rgba(204, 85, 0, 0.6);
       animation: blinkMessage 7s ease-in-out infinite;
     }
@@ -143,7 +141,6 @@
       border: 1px solid rgba(255,255,255,0.2);
     }
 
-    /* --- CSS إضافي للتحسينات --- */
     .card.hide {
       opacity: 0;
       transform: translateY(20px);
@@ -182,10 +179,10 @@
         return;
       }
 
-      resultDiv.innerHTML = <div class="loading"><span></span> جاري البحث...</div>;
+      resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
 
       try {
-        const response = await fetch(${apiURL}?code=${encodeURIComponent(code)});
+        const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
         const result = await response.json();
 
         resultDiv.innerHTML = "";
@@ -197,7 +194,7 @@
           for (const header in result.data) {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("data-row");
-            rowDiv.innerHTML = <span class="icon">📌</span> <strong>${header}:</strong> ${result.data[header] ?? ""};
+            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${result.data[header] ?? ""}`;
             card.appendChild(rowDiv);
           }
 
@@ -216,7 +213,6 @@
       if (e.key === "Enter") searchData();
     });
 
-    /* تحسين الأيقونات */
     const icons = {
       "الاسم": "👤",
       "تاريخ التعيين": "🗓",
@@ -231,7 +227,6 @@
     searchData = async function() {
       const resultDiv = document.getElementById("result");
 
-      // إخفاء البطاقة السابقة
       const oldCard = resultDiv.querySelector(".card.show");
       if (oldCard) {
         oldCard.classList.remove("show");
