@@ -51,22 +51,31 @@
       opacity: 0.10;
       pointer-events: none;
       z-index: 0;
-      animation: movePattern 60s linear infinite;
+      animation: movePattern 120s linear infinite; /* حركة أهدأ */
     }
     @keyframes movePattern {
       from { background-position: 0 0; }
-      to   { background-position: 1000px 600px; }
+      to   { background-position: 800px 500px; }
     }
+
     .content { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; }
+    
+    /* ✅ لمعة متحركة على العنوان */
     h1.main-title { 
       margin-bottom: 8px; 
       font-weight: 700; 
       text-align: center;
       font-size: clamp(1.8rem, 5vw, 2.2rem);
-      background: linear-gradient(90deg, #ff8f81, #ff6f61);
+      background: linear-gradient(90deg, #ff8f81, #ff6f61, #ff8f81);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 4s linear infinite;
     }
+    @keyframes shine {
+      to { background-position: -200% center; }
+    }
+
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
       margin-bottom: 6px;
@@ -86,13 +95,16 @@
       0%, 100% { opacity: 0; transform: translateY(10px); }
       20%, 80% { opacity: 1; transform: translateY(0); }
     }
+
     .search-box { 
       display: flex; gap: 10px; margin-bottom: 20px;
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(8px);
       padding: 15px;
       border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25); /* ✅ ظل */
     }
+
     input {
       padding: 12px 16px;
       font-size: 1.05rem;
@@ -123,12 +135,15 @@
       box-shadow: 0 6px 16px rgba(255, 111, 97, 0.4);
       transform: scale(1.02);
     }
+
+    /* ✅ تأثير موجة للزر */
     button {
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 10px 24px;
       background: linear-gradient(135deg, #ff6f61, #ff9472);
+      background-size: 200% auto;
       color: white;
       border: none;
       border-radius: 8px;
@@ -140,7 +155,7 @@
       box-shadow: 0 4px 15px rgba(255,111,97,0.4);
     }
     button:hover {
-      background: linear-gradient(135deg, #ff9472, #ff6f61);
+      background-position: -200% center;
       transform: translateY(-2px) scale(1.03);
       box-shadow: 0 6px 20px rgba(255,111,97,0.6);
     }
@@ -160,6 +175,7 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
+
     .card {
       background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 16px;
       padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -183,6 +199,7 @@
       0% {transform: rotate(0);}
       100% {transform: rotate(360deg);}
     }
+
     .header-logo {
       width: 100%;
       display: flex;
@@ -256,20 +273,20 @@
     }
 
     function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    const colors = ["#5bc0de", "#d3d3d3"];
-    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-    ctx.fill();
-    p.x += p.speedX;
-    p.y += p.speedY;
-    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-  });
-  requestAnimationFrame(drawParticles);
-}
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        const colors = ["#5bc0de", "#d3d3d3"]; // سماوي ورمادي
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      });
+      requestAnimationFrame(drawParticles);
+    }
 
     initParticles();
     drawParticles();
