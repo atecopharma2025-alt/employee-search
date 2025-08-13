@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATECO Pharma HR Department</title>
+  <title>HR Department</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
@@ -44,7 +44,44 @@
     }
 
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    h1 { margin-bottom: 10px; font-weight: 700; text-align: center; font-size: clamp(1.4rem, 4vw, 2rem); }
+    h1 { 
+      margin-bottom: 5px; 
+      font-weight: 700; 
+      text-align: center; 
+      font-size: clamp(1.4rem, 5vw, 2rem);
+    }
+
+    .subtitle {
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      margin-bottom: 10px;
+      color: #ddd;
+      text-align: center;
+    }
+
+    .welcome-message {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ff8800; /* لون غامق */
+      text-shadow: 0 0 6px rgba(255, 136, 0, 0.6);
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeSlide 2s ease forwards, fadeOut 1s ease forwards 6s;
+    }
+
+    @keyframes fadeSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
 
     .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
     input {
@@ -121,32 +158,6 @@
       opacity: 0;
       transform: translateY(20px);
     }
-
-    /* رسالة الترحيب */
-    .welcome-message {
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      margin-bottom: 20px;
-      text-align: center;
-      color: #ffcc80;
-      text-shadow: 0 0 6px rgba(255, 204, 128, 0.6);
-      opacity: 0;
-      transform: translateY(15px);
-      animation: fadeSlide 2s ease forwards, fadeOut 1s ease forwards 6s;
-    }
-
-    @keyframes fadeSlide {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-    }
   </style>
 </head>
 <body>
@@ -154,10 +165,11 @@
 
   <div class="content">
     <div class="header-logo">
-      <img src="logo.png" alt="ATECO Pharma Logo">
+      <img src="logo.png" alt="HR Department Logo">
     </div>
 
-    <h1>ATECO Pharma HR Department</h1>
+    <h1>HR Department</h1>
+    <p class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</p>
     <p class="welcome-message">مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.</p>
 
     <div class="search-box">
