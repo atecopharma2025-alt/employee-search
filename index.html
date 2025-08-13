@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ATECO Pharma HR Department</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <style>
   * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
   body {
@@ -28,7 +27,6 @@
     100% {background-position: 0% 50%;}
   }
 
-  /* خلفية متكررة متحركة */
   .bg-pattern {
     position: fixed;
     inset: 0;
@@ -46,7 +44,6 @@
   }
 
   .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-
   h1 { margin-bottom: 20px; font-weight: 700; text-align: center; }
 
   .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -79,7 +76,6 @@
     100% {transform: rotate(360deg);}
   }
 
-  /* اللوجو */
   .header-logo {
     width: 100%;
     display: flex;
@@ -98,7 +94,6 @@
     50% { transform: translateY(-5px); }
   }
 
-  /* تحسينات شكلية إضافية */
   .search-box {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(8px);
@@ -141,7 +136,7 @@
   </div>
 
 <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
+const apiURL = "https://script.google.com/macros/s/AKfycbypkLBI_-vfDkig3KQ08b0ZKpFcDuTcnb-O14UtF_i6QC4IyLiik8Hfgkkwt0cpvcsmyA/exec";
 
 async function searchData() {
   const code = document.getElementById("codeInput").value.trim();
@@ -156,39 +151,36 @@ async function searchData() {
   resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
 
   try {
-    const response = await fetch(sheetURL);
-    const csvText = await response.text();
+    const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
+    const data = await response.json();
+    resultDiv.innerHTML = "";
 
-    Papa.parse(csvText, {
-      header: true,
-      skipEmptyLines: true,
-      complete: function(results) {
-        const match = results.data.find(row => (row[Object.keys(row)[0]] || '').trim() === code);
+    if (data && Object.keys(data).length > 0) {
+      const card = document.createElement("div");
+      card.classList.add("card");
 
-        resultDiv.innerHTML = "";
-
-        if (match) {
-          const card = document.createElement("div");
-          card.classList.add("card");
-
-          for (let header in match) {
-            const rowDiv = document.createElement("div");
-            rowDiv.classList.add("data-row");
-            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[header] ?? ""}`;
-            card.appendChild(rowDiv);
-          }
-
-          resultDiv.appendChild(card);
-          setTimeout(() => card.classList.add("show"), 50);
-        } else {
-          resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
-        }
+      for (let key in data) {
+        const rowDiv = document.createElement("div");
+        rowDiv.classList.add("data-row");
+        rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${key}:</strong> ${data[key] ?? ""}`;
+        card.appendChild(rowDiv);
       }
-    });
+
+      resultDiv.appendChild(card);
+      setTimeout(() => card.classList.add("show"), 50);
+    } else {
+      resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
+    }
   } catch (error) {
     resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
   }
 }
+
+document.getElementById("codeInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    searchData();
+  }
+});
 </script>
 </body>
 </html>
