@@ -4,88 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ATECO HR Department</title>
-
-  <!-- خط Cairo -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     body {
-      margin: 0;
       font-family: 'Cairo', sans-serif;
-      background-color: #0f172a;
+      background: #0f172a;
       color: white;
       text-align: center;
-      overflow-x: hidden;
+      padding: 20px;
     }
-
-    /* خلفية اللوجو المتحرك */
-    .bg-logo {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: url('animated-logo.png'); /* هنا حط صورة اللوجو المتحرك */
-      background-size: 150px;
-      background-repeat: repeat;
-      animation: moveBg 20s linear infinite;
-      opacity: 0.08;
-      z-index: -1;
-    }
-
-    @keyframes moveBg {
-      from { background-position: 0 0; }
-      to { background-position: 1000px 1000px; }
-    }
-
-    /* حركة النص الترحيبي */
     @keyframes fadeUpLoop {
       0% { opacity: 0; transform: translateY(20px); }
       20% { opacity: 1; transform: translateY(0); }
       80% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-10px); }
     }
-
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      width: 250px;
+      margin: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: #facc15;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
     table {
-      margin: 30px auto;
+      margin: 20px auto;
       border-collapse: collapse;
       width: 90%;
-      max-width: 1000px;
-      background-color: rgba(255,255,255,0.05);
-      border-radius: 10px;
-      overflow: hidden;
+      display: none; /* مخفي في البداية */
     }
-
     th, td {
-      padding: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid #475569;
+      padding: 10px;
     }
-
     th {
-      background-color: rgba(255,255,255,0.1);
+      background: #1e293b;
     }
   </style>
 </head>
 <body>
 
-  <!-- الخلفية -->
-  <div class="bg-logo"></div>
+  <!-- اللوجو -->
+  <img src="header-logo.png" alt="ATECO Logo" style="height:60px;" />
 
-  <!-- اللوجو الأساسي -->
-  <img src="header-logo.png" alt="ATECO Logo" style="height:60px; margin-top:20px;" />
-
+  <!-- العنوان -->
   <h1 style="font-weight:700; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
     ATECO HR Department
   </h1>
 
-  <p style="
-    margin-top:-10px; 
-    color:#94a3b8; 
-    font-size:18px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-  ">
+  <p style="margin-top:-10px; color:#94a3b8; font-size:18px;">
     خدمة الاستعلام عن الرصيد والمعلومات
   </p>
 
-  <!-- جملة ترحيب -->
+  <!-- جملة الترحيب -->
   <p style="
     margin-top:5px; 
     color:#facc15; 
@@ -97,41 +78,68 @@
     مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات
   </p>
 
-  <!-- جدول البيانات -->
-  <table id="data-table">
-    <thead></thead>
-    <tbody></tbody>
+  <!-- مربع البحث -->
+  <input type="text" id="searchCode" placeholder="أدخل الكود الخاص بك">
+  <button onclick="searchData()">بحث</button>
+
+  <!-- الجدول -->
+  <table id="dataTable">
+    <thead id="tableHead"></thead>
+    <tbody id="tableBody"></tbody>
   </table>
 
   <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
 
-    fetch(sheetUrl)
-      .then(response => response.text())
-      .then(data => {
-        const rows = data.split("\n").map(row => row.split(","));
-        const tableHead = document.querySelector("#data-table thead");
-        const tableBody = document.querySelector("#data-table tbody");
+    async function searchData() {
+      const code = document.getElementById("searchCode").value.trim();
+      if (!code) {
+        alert("من فضلك أدخل الكود");
+        return;
+      }
 
-        // إضافة العناوين
-        let headerHTML = "<tr>";
-        rows[0].forEach(header => {
-          headerHTML += `<th>${header}</th>`;
-        });
-        headerHTML += "</tr>";
-        tableHead.innerHTML = headerHTML;
+      const response = await fetch(sheetURL);
+      const data = await response.text();
+      const rows = data.split("\n").map(r => r.split(","));
 
-        // إضافة البيانات
-        for (let i = 1; i < rows.length; i++) {
-          let rowHTML = "<tr>";
-          rows[i].forEach(cell => {
-            rowHTML += `<td>${cell}</td>`;
-          });
-          rowHTML += "</tr>";
-          tableBody.innerHTML += rowHTML;
-        }
+      const headers = rows[0];
+      const filtered = rows.filter((row, index) => index !== 0 && row[0] === code);
+
+      const table = document.getElementById("dataTable");
+      const thead = document.getElementById("tableHead");
+      const tbody = document.getElementById("tableBody");
+
+      thead.innerHTML = "";
+      tbody.innerHTML = "";
+
+      if (filtered.length === 0) {
+        alert("لم يتم العثور على بيانات لهذا الكود");
+        table.style.display = "none";
+        return;
+      }
+
+      // عرض العناوين
+      let headRow = document.createElement("tr");
+      headers.forEach(h => {
+        let th = document.createElement("th");
+        th.textContent = h;
+        headRow.appendChild(th);
       });
-  </script>
+      thead.appendChild(headRow);
 
+      // عرض الصف المطلوب
+      filtered.forEach(row => {
+        let tr = document.createElement("tr");
+        row.forEach(cell => {
+          let td = document.createElement("td");
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+
+      table.style.display = "table";
+    }
+  </script>
 </body>
 </html>
