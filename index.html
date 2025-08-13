@@ -11,7 +11,7 @@
   body {
     margin: 0; min-height: 100vh; display: flex; flex-direction: column;
     align-items: center; justify-content: flex-start; padding: 20px;
-    color: white; position: relative; /* للسماح بطبقة الخلفية الثابتة */
+    color: white; position: relative;
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
     background-size: 400% 400%; animation: gradientBG 15s ease infinite;
     overflow-x: hidden;
@@ -28,27 +28,27 @@
     100% {background-position: 0% 50%;}
   }
 
-  /* طبقة الخلفية المتكرّرة المتحركة (لا تؤثر على المحتوى) */
+  /* خلفية متكررة متحركة */
   .bg-pattern {
     position: fixed;
     inset: 0;
-    background-image: url("pattern.png"); /* ← غيّرها لصورتك */
+    background-image: url("pattern.png");
     background-repeat: repeat;
-    background-size: 180px 180px; /* حجم تكرار الصورة */
-    opacity: 0.10; /* شفافية بسيطة علشان الشكل يفضل شيك */
-    pointer-events: none; /* ما تمنع التفاعل مع العناصر */
+    background-size: 180px 180px;
+    opacity: 0.10;
+    pointer-events: none;
     z-index: 0;
     animation: movePattern 60s linear infinite;
   }
   @keyframes movePattern {
     from { background-position: 0 0; }
-    to   { background-position: 1000px 600px; } /* حركة ناعمة بالورب */
+    to   { background-position: 1000px 600px; }
   }
 
-  /* غلاف لكل المحتوى ليظهر فوق الخلفية المتحركة */
   .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
   h1 { margin-bottom: 20px; font-weight: 700; text-align: center; }
+
   .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
   input {
     padding: 10px; font-size: 1rem; border-radius: 8px; border: none; outline: none; min-width: 200px;
@@ -79,7 +79,7 @@
     100% {transform: rotate(360deg);}
   }
 
-  /* تنسيق اللوجو */
+  /* اللوجو */
   .header-logo {
     width: 100%;
     display: flex;
@@ -88,22 +88,50 @@
     margin-top: 10px;
   }
   .header-logo img {
-    max-width: 150px;
+    max-width: 220px;
     height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  /* تحسينات شكلية إضافية */
+  .search-box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    padding: 15px;
+    border-radius: 12px;
+  }
+  button {
+    position: relative;
+    overflow: hidden;
+  }
+  button:hover {
+    box-shadow: 0 0 12px #ff6f61, 0 0 30px rgba(255,111,97,0.5);
+  }
+  .card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  h1 {
+    background: linear-gradient(90deg, #ff8f81, #ff6f61);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 </style>
 </head>
 <body>
-  <!-- خلفية متكرّرة متحركة -->
   <div class="bg-pattern" aria-hidden="true"></div>
 
-  <!-- المحتوى الطبيعي للصفحة -->
   <div class="content">
     <div class="header-logo">
-      <img src="logo.png" alt="ATECO Pharma Logo"><!-- ← غيّرها لمسار لوجو شركتك -->
+      <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
 
-    <h1>ATECO HR Department</h1>
+    <h1>ATECO Pharma HR Department</h1>
 
     <div class="search-box">
       <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
@@ -125,7 +153,6 @@ async function searchData() {
     return;
   }
 
-  // عرض تحميل مؤقت
   resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
 
   try {
@@ -138,7 +165,7 @@ async function searchData() {
       complete: function(results) {
         const match = results.data.find(row => (row[Object.keys(row)[0]] || '').trim() === code);
 
-        resultDiv.innerHTML = ""; // مسح التحميل المؤقت
+        resultDiv.innerHTML = "";
 
         if (match) {
           const card = document.createElement("div");
