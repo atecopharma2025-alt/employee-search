@@ -44,28 +44,31 @@
     }
 
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    h1 { margin-bottom: 10px; font-weight: 700; text-align: center; }
-
-    /* العناوين الجديدة */
-    .main-title {
-      font-size: clamp(1.6rem, 5vw, 2.2rem);
-      font-weight: 700;
-      text-align: center;
-      background: linear-gradient(90deg, #ff8f81, #ff6f61);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    h1 { margin-bottom: 10px; font-weight: 700; text-align: center; font-size: clamp(1.5rem, 4vw, 2rem); }
     .sub-title {
-      font-size: 1.2rem;
-      font-weight: 400;
-      margin-bottom: 5px;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      margin-bottom: 8px;
       text-align: center;
+      color: #ddd;
     }
     .welcome-message {
-      font-size: 1rem;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
       margin-bottom: 20px;
       text-align: center;
-      opacity: 0.9;
+      color: #ffd98e;
+      text-shadow: 0 0 6px rgba(255, 217, 142, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #ffd98e;
+      width: 0;
+      animation: typing 4s steps(50, end) forwards, blink 0.7s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
 
     .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -133,8 +136,11 @@
       background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
       border: 1px solid rgba(255,255,255,0.2);
     }
-
-    /* --- CSS إضافي للتحسينات --- */
+    h1 {
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     .card.hide {
       opacity: 0;
       transform: translateY(20px);
@@ -149,12 +155,9 @@
       <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
 
-    <!-- العناوين الجديدة -->
-    <h1 class="main-title">ATECO HR Department</h1>
-    <h2 class="sub-title">خدمة الاستعلام عن الرصيد والمعلومات</h2>
-    <div class="welcome-message">
-      مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.
-    </div>
+    <h1 class="main-title">ATECO Pharma HR Department</h1>
+    <p class="sub-title">خدمة الاستعلام عن الرصيد والمعلومات</p>
+    <p class="welcome-message">مرحباً بك في قسم الموارد البشرية – نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات.</p>
 
     <div class="search-box">
       <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
@@ -211,7 +214,6 @@
     });
   </script>
 
-  <!-- تحسينات الأيقونات والأنيميشن بدون لمس الكود الأساسي -->
   <script>
     const icons = {
       "الاسم": "👤",
