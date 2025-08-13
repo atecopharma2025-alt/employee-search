@@ -26,6 +26,22 @@
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
+
+    /* ✅ طبقة عمق شفافة */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      z-index: 0;
+      pointer-events: none;
+    }
+    @media (prefers-color-scheme: light) {
+      body::before {
+        background: rgba(255, 255, 255, 0.25);
+      }
+    }
+
     .bg-pattern {
       position: fixed;
       inset: 0;
@@ -41,7 +57,7 @@
       from { background-position: 0 0; }
       to   { background-position: 1000px 600px; }
     }
-    .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .content { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; }
     h1.main-title { 
       margin-bottom: 8px; 
       font-weight: 700; 
@@ -184,9 +200,18 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
+
+    /* ✅ Canvas للجزيئات */
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <canvas id="particles"></canvas>
   <div class="bg-pattern" aria-hidden="true"></div>
   <div class="content">
     <div class="header-logo">
@@ -203,7 +228,52 @@
     </div>
     <div id="result"></div>
   </div>
+
   <script>
+    /* 🎯 كود الجزيئات */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < 50; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2 + 1,
+          speedX: (Math.random() - 0.5) * 0.5,
+          speedY: (Math.random() - 0.5) * 0.5
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      });
+      requestAnimationFrame(drawParticles);
+    }
+
+    initParticles();
+    drawParticles();
+
+    /* 🎯 كود البحث الأصلي */
     const apiURL = "https://script.google.com/macros/s/AKfycbwzRoFDEI8L9nznDjX0xRuLcmGvF4lVks3rM6uJVfQZ0y-6RNe5b8TCKSdMw0YTIvx9BQ/exec";
     async function searchData() {
       const code = document.getElementById("codeInput").value.trim();
