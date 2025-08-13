@@ -54,10 +54,28 @@
     0% {transform: rotate(0);}
     100% {transform: rotate(360deg);}
   }
+
+  /* تنسيق اللوجو */
+  .header-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  .header-logo img {
+    max-width: 150px;
+    height: auto;
+  }
 </style>
 </head>
 <body>
+  <div class="header-logo">
+    <img src="logo.png" alt="ATECO Pharma Logo">
+  </div>
+
   <h1>ATECO Pharma HR Department</h1>
+
   <div class="search-box">
     <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
     <button onclick="searchData()">بحث</button>
