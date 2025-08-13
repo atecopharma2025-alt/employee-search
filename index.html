@@ -6,7 +6,6 @@
   <title>ATECO Pharma HR Department</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* احتفظ بنفس تنسيقات التصميم الكامل كما كانت لديك */
     * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
     body {
       margin: 0; min-height: 100vh; display: flex; flex-direction: column;
@@ -45,7 +44,6 @@
     }
 
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-
     h1 { margin-bottom: 20px; font-weight: 700; text-align: center; }
 
     .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -118,6 +116,12 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    /* --- CSS إضافي للتحسينات --- */
+    .card.hide {
+      opacity: 0;
+      transform: translateY(20px);
+    }
   </style>
 </head>
 <body>
@@ -183,6 +187,45 @@
     document.getElementById("codeInput").addEventListener("keypress", function(e) {
       if (e.key === "Enter") searchData();
     });
+  </script>
+
+  <!-- تحسينات الأيقونات والأنيميشن بدون لمس الكود الأساسي -->
+  <script>
+    const icons = {
+      "الاسم": "👤",
+      "تاريخ التعيين": "🗓",
+      "ساعات": "🕐",
+      "القسم": "🏢",
+      "المسمى الوظيفي": "💼",
+      "العنوان": "📍",
+      "المدير المباشر": "🧑‍💼"
+    };
+
+    const originalSearchData = searchData;
+    searchData = async function() {
+      const resultDiv = document.getElementById("result");
+
+      // إخفاء البطاقة السابقة
+      const oldCard = resultDiv.querySelector(".card.show");
+      if (oldCard) {
+        oldCard.classList.remove("show");
+        oldCard.classList.add("hide");
+        await new Promise(res => setTimeout(res, 400));
+        resultDiv.innerHTML = "";
+      }
+
+      await originalSearchData();
+
+      const card = resultDiv.querySelector(".card");
+      if (card) {
+        card.querySelectorAll(".data-row").forEach(row => {
+          const label = row.querySelector("strong")?.innerText.replace(":", "").trim();
+          const icon = icons[label] || "📌";
+          row.querySelector(".icon").textContent = icon;
+        });
+        setTimeout(() => card.classList.add("show"), 50);
+      }
+    };
   </script>
 </body>
 </html>
