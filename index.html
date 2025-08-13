@@ -199,11 +199,11 @@
     /* ألوان الأيقونات حسب نوع البيانات */
     .data-row:has(strong:contains("الاسم")) .icon { color: #4cafef; }
     .data-row:has(strong:contains("تاريخ التعيين")) .icon { color: #ffa500; }
-    .data-row:has(strong:contains("ساعات")) .icon { color: #9c27b0; }
-    .data-row:has(strong:contains("القسم")) .icon { color: #4caf50; }
-    .data-row:has(strong:contains("المسمى الوظيفي")) .icon { color: #e91e63; }
-    .data-row:has(strong:contains("العنوان")) .icon { color: #00bcd4; }
-    .data-row:has(strong:contains("المدير المباشر")) .icon { color: #ff5722; }
+    .data-row:has(strong:contains("رصيد الساعات")) .icon { color: #9c27b0; }
+    .data-row:has(strong:contains("تاريخ استحقاق الرصيد")) .icon { color: #4caf50; }
+    .data-row:has(strong:contains("اجمالى الرصيد المستهلك")) .icon { color: #e91e63; }
+    .data-row:has(strong:contains("اجمالى الرصيد المتبقى")) .icon { color: #00bcd4; }
+    .data-row:has(strong:contains("تاريخ اخر تحديث")) .icon { color: #ff5722; }
 
     .loading {
       font-size: 1.1rem; margin-top: 20px;
@@ -308,7 +308,7 @@
     const icons = {
       "الاسم": "👤",
       "تاريخ التعيين": "🗓",
-      "ساعات": "🕐",
+      "رصيد الساعات": "🕐",
       "القسم": "🏢",
       "المسمى الوظيفي": "💼",
       "العنوان": "📍",
