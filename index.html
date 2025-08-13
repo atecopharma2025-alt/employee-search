@@ -5,95 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ATECO Pharma HR Department</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <style>
-  * {
-    box-sizing: border-box;
-    font-family: 'Tajawal', sans-serif;
-  }
+  * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
   body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
+    margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start; padding: 20px;
     color: white;
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    transition: background 0.5s ease;
+    background-size: 400% 400%; animation: gradientBG 15s ease infinite;
   }
   @media (prefers-color-scheme: light) {
-    body {
-      background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #333;
-    }
+    body { background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
+      background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #333; }
   }
   @keyframes gradientBG {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
   }
-  h1 {
-    margin-bottom: 20px;
-    font-weight: 700;
-    text-align: center;
-  }
-  .search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
+  h1 { margin-bottom: 20px; font-weight: 700; text-align: center; }
+  .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
   input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    min-width: 200px;
+    padding: 10px; font-size: 1rem; border-radius: 8px; border: none; outline: none; min-width: 200px;
   }
   button {
-    padding: 10px 20px;
-    background: #ff6f61;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    padding: 10px 20px; background: #ff6f61; color: white; border: none;
+    border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;
   }
-  button:hover {
-    background: #ff8f81;
-    box-shadow: 0 0 10px #ff6f61;
-  }
+  button:hover { background: #ff8f81; box-shadow: 0 0 10px #ff6f61; }
   .card {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 20px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    margin-top: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 16px;
+    padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    margin-top: 10px; opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
   }
-  .card.show {
-    opacity: 1;
-    transform: translateY(0);
+  .card.show { opacity: 1; transform: translateY(0); }
+  .data-row { display: flex; align-items: center; margin-bottom: 8px; gap: 8px; }
+  .icon { font-size: 1.2rem; }
+  .loading {
+    font-size: 1.1rem; margin-top: 20px;
+    display: flex; align-items: center; gap: 8px;
   }
-  .data-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    gap: 8px;
+  .loading span {
+    width: 12px; height: 12px; border: 2px solid white; border-top-color: transparent;
+    border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite;
   }
-  .icon {
-    font-size: 1.2rem;
+  @keyframes spin {
+    0% {transform: rotate(0);}
+    100% {transform: rotate(360deg);}
   }
 </style>
 </head>
@@ -118,27 +77,39 @@ async function searchData() {
     return;
   }
 
+  // عرض تحميل مؤقت
+  resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
+
   try {
     const response = await fetch(sheetURL);
-    const data = await response.text();
-    const rows = data.split("\n").map(r => r.split(","));
-    const headers = rows[0];
-    const match = rows.find(row => row[0].trim() === code);
+    const csvText = await response.text();
 
-    if (match) {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      headers.forEach((header, index) => {
-        const rowDiv = document.createElement("div");
-        rowDiv.classList.add("data-row");
-        rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[index]}`;
-        card.appendChild(rowDiv);
-      });
-      resultDiv.appendChild(card);
-      setTimeout(() => card.classList.add("show"), 50);
-    } else {
-      resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
-    }
+    Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        const match = results.data.find(row => row[Object.keys(row)[0]].trim() === code);
+
+        resultDiv.innerHTML = ""; // مسح التحميل المؤقت
+
+        if (match) {
+          const card = document.createElement("div");
+          card.classList.add("card");
+
+          for (let header in match) {
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("data-row");
+            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[header]}`;
+            card.appendChild(rowDiv);
+          }
+
+          resultDiv.appendChild(card);
+          setTimeout(() => card.classList.add("show"), 50);
+        } else {
+          resultDiv.innerHTML = "<p>لم يتم العثور على الموظف</p>";
+        }
+      }
+    });
   } catch (error) {
     resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
   }
