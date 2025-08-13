@@ -10,15 +10,15 @@
     body {
       margin: 0; min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: flex-start; padding: 20px;
-      color: #555; position: relative;
-      background: linear-gradient(-45deg, #00B4E3, #e6f7fb, #00B4E3, #cceef5);
+      color: white; position: relative;
+      background: linear-gradient(-45deg, #0a2f5c, #005f8f, #1a8dbf, #0a2f5c);
       background-size: 400% 400%; animation: gradientBG 15s ease infinite;
       overflow-x: hidden;
     }
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: light) {
       body {
-        background: linear-gradient(-45deg, #0d2b36, #1f4b56, #0d2b36, #1f4b56);
-        color: #eee;
+        background: linear-gradient(-45deg, #e3f2fd, #bbdefb, #90caf9, #bbdefb);
+        background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #333;
       }
     }
     @keyframes gradientBG {
@@ -26,13 +26,14 @@
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
+
     .bg-pattern {
       position: fixed;
       inset: 0;
       background-image: url("pattern.png");
       background-repeat: repeat;
       background-size: 180px 180px;
-      opacity: 0.08;
+      opacity: 0.10;
       pointer-events: none;
       z-index: 0;
       animation: movePattern 60s linear infinite;
@@ -41,49 +42,52 @@
       from { background-position: 0 0; }
       to   { background-position: 1000px 600px; }
     }
+
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
     h1.main-title { 
       margin-bottom: 8px; 
       font-weight: 700; 
       text-align: center;
       font-size: clamp(1.8rem, 5vw, 2.2rem);
-      background: linear-gradient(90deg, #00B4E3, #009ac2);
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
       margin-bottom: 6px;
-      color: #007a94;
+      color: #ffd54f;
       text-align: center;
       font-weight: bold;
     }
+
     .welcome-message {
       font-size: clamp(0.9rem, 2.5vw, 1.1rem);
       margin-bottom: 20px;
       text-align: center;
-      color: #005f73;
-      text-shadow: 0 0 6px rgba(0, 180, 227, 0.4);
+      color: #ffca28;
+      text-shadow: 0 0 6px rgba(255, 202, 40, 0.6);
       animation: blinkMessage 7s ease-in-out infinite;
     }
     @keyframes blinkMessage {
       0%, 100% { opacity: 0; transform: translateY(10px); }
       20%, 80% { opacity: 1; transform: translateY(0); }
     }
+
     .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
     input {
       padding: 10px; font-size: 1rem; border-radius: 8px; border: none; outline: none; min-width: 200px;
     }
     button {
-      padding: 10px 20px; background: #00B4E3; color: white; border: none;
+      padding: 10px 20px; background: #ff6f61; color: white; border: none;
       border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;
     }
-    button:hover { background: #009ac2; box-shadow: 0 0 10px #00B4E3; }
+    button:hover { background: #ff8f81; box-shadow: 0 0 10px #ff6f61; }
     .card {
       background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 16px;
-      padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
       margin-top: 10px; opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
-      border: 1px solid rgba(0,180,227,0.2);
     }
     .card.show { opacity: 1; transform: translateY(0); }
     .data-row { display: flex; align-items: center; margin-bottom: 8px; gap: 8px; }
@@ -100,6 +104,7 @@
       0% {transform: rotate(0);}
       100% {transform: rotate(360deg);}
     }
+
     .header-logo {
       width: 100%;
       display: flex;
@@ -110,13 +115,18 @@
     .header-logo img {
       max-width: 220px;
       height: auto;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
       animation: float 4s ease-in-out infinite;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
+
     .search-box {
       background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(8px);
@@ -128,7 +138,11 @@
       overflow: hidden;
     }
     button:hover {
-      box-shadow: 0 0 12px #00B4E3, 0 0 30px rgba(0,180,227,0.4);
+      box-shadow: 0 0 12px #ff6f61, 0 0 30px rgba(255,111,97,0.5);
+    }
+    .card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.2);
     }
     .card.hide {
       opacity: 0;
@@ -138,13 +152,16 @@
 </head>
 <body>
   <div class="bg-pattern" aria-hidden="true"></div>
+
   <div class="content">
     <div class="header-logo">
       <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
+
     <h1 class="main-title">HR Department</h1>
     <div class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</div>
-    <div class="welcome-message"> نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات</div>
+    <div class="welcome-message">نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات</div>
+
     <div class="search-box">
       <input type="text" id="codeInput" placeholder="أدخل الكود الخاص بك">
       <button onclick="searchData()">بحث</button>
@@ -165,11 +182,12 @@
         return;
       }
 
-      resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
+      resultDiv.innerHTML = '<div class="loading"><span></span> جاري البحث...</div>';
 
       try {
         const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
         const result = await response.json();
+
         resultDiv.innerHTML = "";
 
         if (result.ok && result.data) {
@@ -211,6 +229,7 @@
     const originalSearchData = searchData;
     searchData = async function() {
       const resultDiv = document.getElementById("result");
+
       const oldCard = resultDiv.querySelector(".card.show");
       if (oldCard) {
         oldCard.classList.remove("show");
@@ -218,7 +237,9 @@
         await new Promise(res => setTimeout(res, 400));
         resultDiv.innerHTML = "";
       }
+
       await originalSearchData();
+
       const card = resultDiv.querySelector(".card");
       if (card) {
         card.querySelectorAll(".data-row").forEach(row => {
