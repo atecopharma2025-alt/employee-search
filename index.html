@@ -44,6 +44,7 @@
   }
 
   .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+
   h1 { margin-bottom: 20px; font-weight: 700; text-align: center; }
 
   .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -152,17 +153,18 @@ async function searchData() {
 
   try {
     const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
-    const data = await response.json();
+    const result = await response.json();
+
     resultDiv.innerHTML = "";
 
-    if (data && Object.keys(data).length > 0) {
+    if (result.ok && result.data) {
       const card = document.createElement("div");
       card.classList.add("card");
 
-      for (let key in data) {
+      for (let header in result.data) {
         const rowDiv = document.createElement("div");
         rowDiv.classList.add("data-row");
-        rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${key}:</strong> ${data[key] ?? ""}`;
+        rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${result.data[header] ?? ""}`;
         card.appendChild(rowDiv);
       }
 
@@ -175,12 +177,6 @@ async function searchData() {
     resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
   }
 }
-
-document.getElementById("codeInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    searchData();
-  }
-});
 </script>
 </body>
 </html>
