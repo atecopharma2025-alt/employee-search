@@ -11,19 +11,43 @@
   body {
     margin: 0; min-height: 100vh; display: flex; flex-direction: column;
     align-items: center; justify-content: flex-start; padding: 20px;
-    color: white;
+    color: white; position: relative; /* للسماح بطبقة الخلفية الثابتة */
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
     background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+    overflow-x: hidden;
   }
   @media (prefers-color-scheme: light) {
-    body { background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
-      background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #333; }
+    body {
+      background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ffecd2, #fcb69f);
+      background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #333;
+    }
   }
   @keyframes gradientBG {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
   }
+
+  /* طبقة الخلفية المتكرّرة المتحركة (لا تؤثر على المحتوى) */
+  .bg-pattern {
+    position: fixed;
+    inset: 0;
+    background-image: url("pattern.png"); /* ← غيّرها لصورتك */
+    background-repeat: repeat;
+    background-size: 180px 180px; /* حجم تكرار الصورة */
+    opacity: 0.10; /* شفافية بسيطة علشان الشكل يفضل شيك */
+    pointer-events: none; /* ما تمنع التفاعل مع العناصر */
+    z-index: 0;
+    animation: movePattern 60s linear infinite;
+  }
+  @keyframes movePattern {
+    from { background-position: 0 0; }
+    to   { background-position: 1000px 600px; } /* حركة ناعمة بالورب */
+  }
+
+  /* غلاف لكل المحتوى ليظهر فوق الخلفية المتحركة */
+  .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+
   h1 { margin-bottom: 20px; font-weight: 700; text-align: center; }
   .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
   input {
@@ -47,7 +71,7 @@
     display: flex; align-items: center; gap: 8px;
   }
   .loading span {
-    width: 12px; height: 12px; border: 2px solid white; border-top-color: transparent;
+    width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent;
     border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite;
   }
   @keyframes spin {
@@ -70,17 +94,23 @@
 </style>
 </head>
 <body>
-  <div class="header-logo">
-    <img src="logo.png" alt="ATECO Pharma Logo">
-  </div>
+  <!-- خلفية متكرّرة متحركة -->
+  <div class="bg-pattern" aria-hidden="true"></div>
 
-  <h1>ATECO HR Department</h1>
+  <!-- المحتوى الطبيعي للصفحة -->
+  <div class="content">
+    <div class="header-logo">
+      <img src="logo.png" alt="ATECO Pharma Logo"><!-- ← غيّرها لمسار لوجو شركتك -->
+    </div>
 
-  <div class="search-box">
-    <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
-    <button onclick="searchData()">بحث</button>
+    <h1>ATECO Pharma HR Department</h1>
+
+    <div class="search-box">
+      <input type="text" id="codeInput" placeholder="أدخل كود الموظف">
+      <button onclick="searchData()">بحث</button>
+    </div>
+    <div id="result"></div>
   </div>
-  <div id="result"></div>
 
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-kXTdaWwYZdVpvPE7t81BR0ML8CFX8BjZPbYKUxE6sd-SWB2zg4I7sVLxQBDg4yIgKzJ8nB2LOwzM/pub?gid=0&single=true&output=csv";
@@ -106,7 +136,7 @@ async function searchData() {
       header: true,
       skipEmptyLines: true,
       complete: function(results) {
-        const match = results.data.find(row => row[Object.keys(row)[0]].trim() === code);
+        const match = results.data.find(row => (row[Object.keys(row)[0]] || '').trim() === code);
 
         resultDiv.innerHTML = ""; // مسح التحميل المؤقت
 
@@ -117,7 +147,7 @@ async function searchData() {
           for (let header in match) {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("data-row");
-            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[header]}`;
+            rowDiv.innerHTML = `<span class="icon">📌</span> <strong>${header}:</strong> ${match[header] ?? ""}`;
             card.appendChild(rowDiv);
           }
 
