@@ -17,19 +17,46 @@
     }
     @media (prefers-color-scheme: light) {
       body {
-        background: 
-    linear-gradient(135deg, rgba(255, 236, 210, 0.9), rgba(252, 182, 159, 0.9)),
+        body {
+  background: 
+    linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
     url('pattern.png');
   background-blend-mode: overlay;
-        background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: #333;
-      }
-      input {
-        background: rgba(255, 255, 255, 0.8);
-        color: #333;
-      }
-      input::placeholder {
-        color: rgba(0, 0, 0, 0.6);
-      }
+  background-size: 400% 400%, 200px 200px;
+  animation: gradientBG 15s ease infinite, patternMove 30s linear infinite, colorShift 40s ease-in-out infinite;
+  color: #333;
+}
+
+/* حركة الـ Gradient */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%, 0 0; }
+  50% { background-position: 100% 50%, 50px 50px; }
+  100% { background-position: 0% 50%, 0 0; }
+}
+
+/* حركة الـ Pattern */
+@keyframes patternMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, 200px 200px; }
+}
+
+/* Smooth Color Shift */
+@keyframes colorShift {
+  0%   { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
+  25%  { background: linear-gradient(135deg, rgba(210, 255, 236, 0.85), rgba(159, 252, 182, 0.85)), url('pattern.png'); }
+  50%  { background: linear-gradient(135deg, rgba(236, 210, 255, 0.85), rgba(182, 159, 252, 0.85)), url('pattern.png'); }
+  75%  { background: linear-gradient(135deg, rgba(255, 210, 236, 0.85), rgba(252, 159, 182, 0.85)), url('pattern.png'); }
+  100% { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
+}
+
+input {
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+}
       .card {
         color: #222;
         text-shadow: none;
