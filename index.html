@@ -101,15 +101,15 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
+    /* زيادة وضوح الـ placeholder */
     input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.85);
     }
     input:focus {
       background: rgba(255, 255, 255, 0.25);
       box-shadow: 0 6px 16px rgba(255, 111, 97, 0.4);
       transform: scale(1.02);
     }
-    /* تأثير خفيف عند إدخال الكود */
     input:valid {
       border: 1px solid #ff6f61;
     }
@@ -168,7 +168,21 @@
     }
     .card.show { opacity: 1; transform: translateY(0); }
     .card.hide { opacity: 0; transform: translateY(20px); }
-    .data-row { display: flex; align-items: center; margin-bottom: 8px; gap: 8px; }
+
+    /* أنيميشن متتابع للصفوف */
+    .data-row {
+      display: flex; align-items: center; margin-bottom: 8px; gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInRow 0.4s ease forwards;
+    }
+    @keyframes fadeInRow {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .icon { font-size: 1.2rem; }
     .loading {
       font-size: 1.1rem; margin-top: 20px;
@@ -229,7 +243,7 @@
         resultDiv.innerHTML = "<p>من فضلك أدخل كود الموظف</p>";
         return;
       }
-      searchBtn.disabled = true; // تعطيل الزر أثناء البحث
+      searchBtn.disabled = true;
       resultDiv.innerHTML = `<div class="loading"><span></span> جاري البحث...</div>`;
       try {
         const response = await fetch(`${apiURL}?code=${encodeURIComponent(code)}`);
@@ -253,7 +267,7 @@
         resultDiv.innerHTML = "<p>خطأ في جلب البيانات</p>";
         console.error(error);
       }
-      searchBtn.disabled = false; // إعادة تفعيل الزر بعد البحث
+      searchBtn.disabled = false;
     }
     document.getElementById("codeInput").addEventListener("keypress", function(e) {
       if (e.key === "Enter") searchData();
@@ -280,10 +294,11 @@
       await originalSearchData();
       const card = resultDiv.querySelector(".card");
       if (card) {
-        card.querySelectorAll(".data-row").forEach(row => {
+        card.querySelectorAll(".data-row").forEach((row, index) => {
           const label = row.querySelector("strong")?.innerText.replace(":", "").trim();
           const icon = icons[label] || "📌";
           row.querySelector(".icon").textContent = icon;
+          row.style.animationDelay = `${index * 0.1}s`; // التأخير المتتابع
         });
         setTimeout(() => card.classList.add("show"), 50);
       }
