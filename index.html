@@ -150,22 +150,22 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
-    .card {
-      background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 20px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      margin-top: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.35s ease;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    }
+   .card {
+  background: linear-gradient(145deg, rgba(0,0,0,0.3), rgba(0,0,0,0.15)); /* تغميق أكبر */
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s ease;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff; /* أبيض */
+  text-shadow: 0 3px 6px rgba(0,0,0,0.7); /* ظل أكبر وأوضح */
+}
     .card.show { opacity: 1; transform: translateY(0); }
     .card.hide { opacity: 0; transform: translateY(20px); }
 
