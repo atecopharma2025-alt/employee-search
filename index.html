@@ -16,6 +16,7 @@
       overflow-x: hidden;
     }
     @media (prefers-color-scheme: light) {
+      body {
         body {
   background: 
     linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
@@ -265,25 +266,6 @@ input {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
-  <meta charset="UTF-8">
-  <title>HR Department</title>
-  <style>
-    .main-title {
-      font-size: 48px;
-      font-weight: bold;
-      color: #333;
-    }
-    .main-title span {
-      display: inline-block;
-      animation: spring-bounce 1.5s infinite;
-    }
-    @keyframes spring-bounce {
-      0%, 100% { transform: translateY(0); }
-      20% { transform: translateY(-25px); }
-      40% { transform: translateY(10px); }
-      60% { transform: translateY(-15px); }
-      80% { transform: translateY(5px); }
-    }
   </style>
 </head>
 <body>
@@ -292,21 +274,7 @@ input {
     <div class="header-logo">
       <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
-  <h1 class="main-title">
-    <span style="animation-delay:0s">H</span>
-    <span style="animation-delay:0.1s">R</span>
-    <span style="animation-delay:0.2s"> </span>
-    <span style="animation-delay:0.3s">D</span>
-    <span style="animation-delay:0.4s">e</span>
-    <span style="animation-delay:0.5s">p</span>
-    <span style="animation-delay:0.6s">a</span>
-    <span style="animation-delay:0.7s">r</span>
-    <span style="animation-delay:0.8s">t</span>
-    <span style="animation-delay:0.9s">m</span>
-    <span style="animation-delay:1s">e</span>
-    <span style="animation-delay:1.1s">n</span>
-    <span style="animation-delay:1.2s">t</span>
-  </h1>
+    <h1 class="main-title">HR Department</h1>
     <div class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</div>
     <div class="welcome-message">نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات</div>
     <div class="search-box">
