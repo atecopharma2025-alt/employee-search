@@ -17,6 +17,7 @@
     }
     @media (prefers-color-scheme: light) {
       body {
+        body {
   background: 
     linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
     url('pattern.png');
@@ -25,15 +26,21 @@
   animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
   color: #333;
 }
+
+/* حركة الـ Gradient */
 @keyframes gradientBG {
   0% { background-position: 0% 50%, 0 0; }
   50% { background-position: 100% 50%, 50px 50px; }
   100% { background-position: 0% 50%, 0 0; }
 }
+
+/* حركة الـ Pattern */
 @keyframes patternMove {
   0% { background-position: 0 0, 0 0; }
   100% { background-position: 0 0, 200px 200px; }
 }
+
+/* Smooth Color Shift */
 @keyframes colorShift {
   0%   { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
   25%  { background: linear-gradient(135deg, rgba(210, 255, 236, 0.85), rgba(159, 252, 182, 0.85)), url('pattern.png'); }
@@ -41,6 +48,7 @@
   75%  { background: linear-gradient(135deg, rgba(255, 210, 236, 0.85), rgba(252, 159, 182, 0.85)), url('pattern.png'); }
   100% { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
 }
+
 input {
   background: rgba(255, 255, 255, 0.8);
   color: #333;
@@ -49,7 +57,10 @@ input {
   border-radius: 6px;
   outline: none;
 }
-      .card { color: #222; text-shadow: none; }
+      .card {
+        color: #222;
+        text-shadow: none;
+      }
     }
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
@@ -77,21 +88,9 @@ input {
       font-weight: 700;
       text-align: center;
       font-size: clamp(1.8rem, 5vw, 2.2rem);
-    }
-    /* ✨ كود bounce الجديد */
-    .main-title span {
-      display: inline-block;
-      animation: spring-bounce 1.5s infinite cubic-bezier(.28,.84,.42,1);
-      background: linear-gradient(45deg, #ff4e50, #f9d423);
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-    @keyframes spring-bounce {
-      0%, 100% { transform: translateY(0) scale(1); }
-      20% { transform: translateY(-25px) scale(1.1); }
-      40% { transform: translateY(10px) scale(0.95); }
-      60% { transform: translateY(-15px) scale(1.05); }
-      80% { transform: translateY(5px) scale(0.98); }
     }
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
@@ -132,15 +131,22 @@ input {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
-    input::placeholder { color: rgba(255, 255, 255, 0.85); }
+    /* زيادة وضوح الـ placeholder */
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.85);
+    }
     input:focus {
       background: rgba(255, 255, 255, 0.25);
       box-shadow: 0 6px 16px rgba(255, 111, 97, 0.4);
       transform: scale(1.02);
     }
-    input:valid { border: 1px solid #ff6f61; }
+    input:valid {
+      border: 1px solid #ff6f61;
+    }
     button {
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       padding: 10px 24px;
       background: linear-gradient(135deg, #ff6f61, #ff9472);
       color: white;
@@ -166,8 +172,14 @@ input {
       display: inline-block;
       animation: rotateIcon 1.5s linear infinite, pulseIcon 1.5s ease-in-out infinite;
     }
-    @keyframes rotateIcon { 0% { transform: rotate(0deg) scale(1); } 100% { transform: rotate(360deg) scale(1); } }
-    @keyframes pulseIcon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    @keyframes rotateIcon {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    @keyframes pulseIcon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
    .card {
   background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
   background-size: 200% 200%;
@@ -186,12 +198,21 @@ input {
   color: #fff;
   text-shadow: 0 3px 6px rgba(0,0,0,0.7);
 }
-.card.show { opacity: 1; transform: translateY(0); }
+
+/* لما تضيف class show للكارت يبدأ يظهر */
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* حركة Gradient */
 @keyframes cardGradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+/* الصفوف تظهر بعد الكارت */
 .data-row {
   display: flex;
   align-items: center;
@@ -201,21 +222,50 @@ input {
   transform: translateY(10px);
   animation: fadeInRow 0.4s ease forwards;
 }
+
+/* التأخير يبدأ بعد ظهور الكارت */
 .card.show .data-row:nth-child(1) { animation-delay: 0.3s; }
 .card.show .data-row:nth-child(2) { animation-delay: 0.5s; }
 .card.show .data-row:nth-child(3) { animation-delay: 0.7s; }
 .card.show .data-row:nth-child(4) { animation-delay: 0.9s; }
-@keyframes fadeInRow { to { opacity: 1; transform: translateY(0); } }
+/* زود حسب عدد الصفوف */
+
+@keyframes fadeInRow {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
     .icon { font-size: 1.2rem; }
-    .loading { font-size: 1.1rem; margin-top: 20px; display: flex; align-items: center; gap: 8px; }
+    .loading {
+      font-size: 1.1rem; margin-top: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
     .loading span {
       width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent;
       border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite;
     }
-    @keyframes spin { 0% {transform: rotate(0);} 100% {transform: rotate(360deg);} }
-    .header-logo { width: 100%; display: flex; justify-content: center; margin-bottom: 10px; margin-top: 10px; }
-    .header-logo img { max-width: 220px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); animation: float 4s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes spin {
+      0% {transform: rotate(0);}
+      100% {transform: rotate(360deg);}
+    }
+    .header-logo {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+    .header-logo img {
+      max-width: 220px;
+      height: auto;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
   </style>
 </head>
 <body>
@@ -224,24 +274,7 @@ input {
     <div class="header-logo">
       <img src="logo.png" alt="ATECO Pharma Logo">
     </div>
-
-    <!-- ✨ العنوان المتحرك الجديد -->
-    <h1 class="main-title">
-      <span style="animation-delay:0s">H</span>
-      <span style="animation-delay:0.15s">R</span>
-      <span style="animation-delay:0.3s"> </span>
-      <span style="animation-delay:0.45s">D</span>
-      <span style="animation-delay:0.6s">e</span>
-      <span style="animation-delay:0.75s">p</span>
-      <span style="animation-delay:0.9s">a</span>
-      <span style="animation-delay:1.05s">r</span>
-      <span style="animation-delay:1.2s">t</span>
-      <span style="animation-delay:1.35s">m</span>
-      <span style="animation-delay:1.5s">e</span>
-      <span style="animation-delay:1.65s">n</span>
-      <span style="animation-delay:1.8s">t</span>
-    </h1>
-
+    <h1 class="main-title">HR Department</h1>
     <div class="subtitle">خدمة الاستعلام عن الرصيد والمعلومات</div>
     <div class="welcome-message">نسعد بخدمتك وتوفير كل ما تحتاجه من معلومات</div>
     <div class="search-box">
@@ -252,7 +285,6 @@ input {
     </div>
     <div id="result"></div>
   </div>
-
   <script>
     const apiURL = "https://script.google.com/macros/s/AKfycbwzRoFDEI8L9nznDjX0xRuLcmGvF4lVks3rM6uJVfQZ0y-6RNe5b8TCKSdMw0YTIvx9BQ/exec";
     const searchBtn = document.querySelector("button");
@@ -320,7 +352,7 @@ input {
           const label = row.querySelector("strong")?.innerText.replace(":", "").trim();
           const icon = icons[label] || "📌";
           row.querySelector(".icon").textContent = icon;
-          row.style.animationDelay = `${index * 0.1}s`;
+          row.style.animationDelay = `${index * 0.1}s`; // التأخير المتتابع
         });
         setTimeout(() => card.classList.add("show"), 50);
       }
