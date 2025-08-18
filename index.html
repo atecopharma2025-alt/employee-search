@@ -11,21 +11,9 @@
       margin: 0; min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: flex-start; padding: 20px;
       color: white; position: relative;
-
-      /* الخلفية الأصلية */
-      background: linear-gradient(-45deg, #fff3e6, #ffd4c4);
-      background-size: 400% 400%;
-
-      /* تشغيل الأنيميشنات */
-      animation: gradientBG 15s ease infinite, hueShift 60s linear infinite;
-
+      background: linear-gradient(-45deg, #fff3e6, #ffd4c4, #fff3e6, #ffd4c4);
+      background-size: 400% 400%; animation: gradientBG 15s ease infinite;
       overflow-x: hidden;
-    }
-
-    /* انيميشن تغيير الألوان التدريجي */
-    @keyframes hueShift {
-      from { filter: hue-rotate(0deg); }
-      to   { filter: hue-rotate(360deg); }
     }
 
     /* وضع Light Mode */
@@ -36,7 +24,7 @@
           url('pattern.png');
         background-blend-mode: overlay;
         background-size: 400% 400%, 200px 200px;
-        animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, hueShift 60s linear infinite;
+        animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
         color: #333;
       }
       input {
@@ -64,6 +52,15 @@
     @keyframes patternMove {
       0% { background-position: 0 0, 0 0; }
       100% { background-position: 0 0, 200px 200px; }
+    }
+
+    /* Smooth Color Shift */
+    @keyframes colorShift {
+      0%   { background-image: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)); }
+      25%  { background-image: linear-gradient(135deg, rgba(210, 255, 236, 0.85), rgba(159, 252, 182, 0.85)); }
+      50%  { background-image: linear-gradient(135deg, rgba(236, 210, 255, 0.85), rgba(182, 159, 252, 0.85)); }
+      75%  { background-image: linear-gradient(135deg, rgba(255, 210, 236, 0.85), rgba(252, 159, 182, 0.85)); }
+      100% { background-image: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)); }
     }
 
     .bg-pattern {
