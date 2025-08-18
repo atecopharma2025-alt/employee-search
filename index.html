@@ -17,22 +17,46 @@
     }
     @media (prefers-color-scheme: light) {
       body {
-        background: 
-          linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
-          url('pattern.png');
-        background-blend-mode: overlay;
-        background-size: 400% 400%, 200px 200px;
-        animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
-        color: #333;
-      }
-      input {
-        background: rgba(255, 255, 255, 0.8);
-        color: #333;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 6px;
-        outline: none;
-      }
+        body {
+  background: 
+    linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
+    url('pattern.png');
+  background-blend-mode: overlay;
+  background-size: 400% 400%, 200px 200px;
+  animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
+  color: #333;
+}
+
+/* حركة الـ Gradient */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%, 0 0; }
+  50% { background-position: 100% 50%, 50px 50px; }
+  100% { background-position: 0% 50%, 0 0; }
+}
+
+/* حركة الـ Pattern */
+@keyframes patternMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, 200px 200px; }
+}
+
+/* Smooth Color Shift */
+@keyframes colorShift {
+  0%   { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
+  25%  { background: linear-gradient(135deg, rgba(210, 255, 236, 0.85), rgba(159, 252, 182, 0.85)), url('pattern.png'); }
+  50%  { background: linear-gradient(135deg, rgba(236, 210, 255, 0.85), rgba(182, 159, 252, 0.85)), url('pattern.png'); }
+  75%  { background: linear-gradient(135deg, rgba(255, 210, 236, 0.85), rgba(252, 159, 182, 0.85)), url('pattern.png'); }
+  100% { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
+}
+
+input {
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+}
       .card {
         color: #222;
         text-shadow: none;
@@ -67,20 +91,6 @@
       background: linear-gradient(90deg, #ff8f81, #ff6f61);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-    /* حركة الحروف */
-    .letter {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: letterIn 0.5s forwards;
-    }
-    @keyframes letterIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
@@ -121,13 +131,18 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
-    input::placeholder { color: rgba(255, 255, 255, 0.85); }
+    /* زيادة وضوح الـ placeholder */
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.85);
+    }
     input:focus {
       background: rgba(255, 255, 255, 0.25);
       box-shadow: 0 6px 16px rgba(255, 111, 97, 0.4);
       transform: scale(1.02);
     }
-    input:valid { border: 1px solid #ff6f61; }
+    input:valid {
+      border: 1px solid #ff6f61;
+    }
     button {
       display: flex;
       align-items: center;
@@ -166,45 +181,61 @@
       50% { transform: scale(1.2); }
     }
    .card {
-      background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
-      background-size: 200% 200%;
-      animation: cardGradient 8s ease-in-out infinite;
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 20px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-      margin-top: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.35s ease;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff;
-      text-shadow: 0 3px 6px rgba(0,0,0,0.7);
-    }
-    .card.show { opacity: 1; transform: translateY(0); }
-    @keyframes cardGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .data-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      gap: 8px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInRow 0.4s ease forwards;
-    }
-    .card.show .data-row:nth-child(1) { animation-delay: 0.3s; }
-    .card.show .data-row:nth-child(2) { animation-delay: 0.5s; }
-    .card.show .data-row:nth-child(3) { animation-delay: 0.7s; }
-    .card.show .data-row:nth-child(4) { animation-delay: 0.9s; }
-    @keyframes fadeInRow {
-      to { opacity: 1; transform: translateY(0); }
-    }
+  background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+  background-size: 200% 200%;
+  animation: cardGradient 8s ease-in-out infinite;
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s ease;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.7);
+}
+
+/* لما تضيف class show للكارت يبدأ يظهر */
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* حركة Gradient */
+@keyframes cardGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* الصفوف تظهر بعد الكارت */
+.data-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInRow 0.4s ease forwards;
+}
+
+/* التأخير يبدأ بعد ظهور الكارت */
+.card.show .data-row:nth-child(1) { animation-delay: 0.3s; }
+.card.show .data-row:nth-child(2) { animation-delay: 0.5s; }
+.card.show .data-row:nth-child(3) { animation-delay: 0.7s; }
+.card.show .data-row:nth-child(4) { animation-delay: 0.9s; }
+/* زود حسب عدد الصفوف */
+
+@keyframes fadeInRow {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
     .icon { font-size: 1.2rem; }
     .loading {
       font-size: 1.1rem; margin-top: 20px;
@@ -214,7 +245,10 @@
       width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent;
       border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite;
     }
-    @keyframes spin { 0% {transform: rotate(0);} 100% {transform: rotate(360deg);} }
+    @keyframes spin {
+      0% {transform: rotate(0);}
+      100% {transform: rotate(360deg);}
+    }
     .header-logo {
       width: 100%;
       display: flex;
@@ -252,18 +286,6 @@
     <div id="result"></div>
   </div>
   <script>
-    /* تقسيم العنوان لحروف */
-    const title = document.querySelector(".main-title");
-    const text = title.textContent.trim();
-    title.textContent = "";
-    [...text].forEach((ch, i) => {
-      const span = document.createElement("span");
-      span.textContent = ch;
-      span.className = "letter";
-      span.style.animationDelay = `${i * 0.1}s`;
-      title.appendChild(span);
-    });
-
     const apiURL = "https://script.google.com/macros/s/AKfycbwzRoFDEI8L9nznDjX0xRuLcmGvF4lVks3rM6uJVfQZ0y-6RNe5b8TCKSdMw0YTIvx9BQ/exec";
     const searchBtn = document.querySelector("button");
     async function searchData() {
@@ -330,7 +352,7 @@
           const label = row.querySelector("strong")?.innerText.replace(":", "").trim();
           const icon = icons[label] || "📌";
           row.querySelector(".icon").textContent = icon;
-          row.style.animationDelay = `${index * 0.1}s`;
+          row.style.animationDelay = `${index * 0.1}s`; // التأخير المتتابع
         });
         setTimeout(() => card.classList.add("show"), 50);
       }
