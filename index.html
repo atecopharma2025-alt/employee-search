@@ -15,58 +15,58 @@
       background-size: 400% 400%; animation: gradientBG 15s ease infinite;
       overflow-x: hidden;
     }
-
-    /* ==== لمعة العنوان ==== */
-    h1.main-title {
-      margin-bottom: 8px;
-      font-weight: 700;
-      text-align: center;
-      font-size: clamp(1.8rem, 5vw, 2.2rem);
-      background: linear-gradient(90deg, #ff8f81, #ff6f61);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      position: relative;
-      overflow: hidden;
-    }
-    h1.main-title::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
-      transform: skewX(-20deg);
-      animation: shine 3s infinite;
-    }
-    @keyframes shine {
-      0%   { left: -75%; }
-      100% { left: 125%; }
-    }
-    /* ==== نهاية تأثير اللمعة ==== */
-
     @media (prefers-color-scheme: light) {
       body {
-        background: 
-          linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
-          url('pattern.png');
-        background-blend-mode: overlay;
-        background-size: 400% 400%, 200px 200px;
-        animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
-        color: #333;
-      }
+        body {
+  background: 
+    linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
+    url('pattern.png');
+  background-blend-mode: overlay;
+  background-size: 400% 400%, 200px 200px;
+  animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
+  color: #333;
+}
+
+/* حركة الـ Gradient */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%, 0 0; }
+  50% { background-position: 100% 50%, 50px 50px; }
+  100% { background-position: 0% 50%, 0 0; }
+}
+
+/* حركة الـ Pattern */
+@keyframes patternMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, 200px 200px; }
+}
+
+/* Smooth Color Shift */
+@keyframes colorShift {
+  0%   { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
+  25%  { background: linear-gradient(135deg, rgba(210, 255, 236, 0.85), rgba(159, 252, 182, 0.85)), url('pattern.png'); }
+  50%  { background: linear-gradient(135deg, rgba(236, 210, 255, 0.85), rgba(182, 159, 252, 0.85)), url('pattern.png'); }
+  75%  { background: linear-gradient(135deg, rgba(255, 210, 236, 0.85), rgba(252, 159, 182, 0.85)), url('pattern.png'); }
+  100% { background: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)), url('pattern.png'); }
+}
+
+input {
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+}
       .card {
         color: #222;
         text-shadow: none;
       }
     }
-
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
       100% {background-position: 0% 50%;}
     }
-
     .bg-pattern {
       position: fixed;
       inset: 0;
@@ -83,7 +83,15 @@
       to   { background-position: 1000px 600px; }
     }
     .content { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    
+    h1.main-title {
+      margin-bottom: 8px;
+      font-weight: 700;
+      text-align: center;
+      font-size: clamp(1.8rem, 5vw, 2.2rem);
+      background: linear-gradient(90deg, #ff8f81, #ff6f61);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     .subtitle {
       font-size: clamp(0.8rem, 2.5vw, 1rem);
       margin-bottom: 6px;
@@ -103,7 +111,6 @@
       0%, 100% { opacity: 0; transform: translateY(10px); }
       20%, 80% { opacity: 1; transform: translateY(0); }
     }
-
     .search-box {
       display: flex; gap: 10px; margin-bottom: 20px;
       background: rgba(255, 255, 255, 0.08);
@@ -124,6 +131,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
+    /* زيادة وضوح الـ placeholder */
     input::placeholder {
       color: rgba(255, 255, 255, 0.85);
     }
@@ -172,51 +180,62 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
+   .card {
+  background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+  background-size: 200% 200%;
+  animation: cardGradient 8s ease-in-out infinite;
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s ease;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.7);
+}
 
-    .card {
-      background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
-      background-size: 200% 200%;
-      animation: cardGradient 8s ease-in-out infinite;
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 20px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-      margin-top: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.35s ease;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff;
-      text-shadow: 0 3px 6px rgba(0,0,0,0.7);
-    }
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    @keyframes cardGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .data-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      gap: 8px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInRow 0.4s ease forwards;
-    }
-    .card.show .data-row:nth-child(1) { animation-delay: 0.3s; }
-    .card.show .data-row:nth-child(2) { animation-delay: 0.5s; }
-    .card.show .data-row:nth-child(3) { animation-delay: 0.7s; }
-    .card.show .data-row:nth-child(4) { animation-delay: 0.9s; }
-    @keyframes fadeInRow {
-      to { opacity: 1; transform: translateY(0); }
-    }
+/* لما تضيف class show للكارت يبدأ يظهر */
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
+/* حركة Gradient */
+@keyframes cardGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* الصفوف تظهر بعد الكارت */
+.data-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInRow 0.4s ease forwards;
+}
+
+/* التأخير يبدأ بعد ظهور الكارت */
+.card.show .data-row:nth-child(1) { animation-delay: 0.3s; }
+.card.show .data-row:nth-child(2) { animation-delay: 0.5s; }
+.card.show .data-row:nth-child(3) { animation-delay: 0.7s; }
+.card.show .data-row:nth-child(4) { animation-delay: 0.9s; }
+/* زود حسب عدد الصفوف */
+
+@keyframes fadeInRow {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
     .icon { font-size: 1.2rem; }
     .loading {
       font-size: 1.1rem; margin-top: 20px;
@@ -266,11 +285,9 @@
     </div>
     <div id="result"></div>
   </div>
-
   <script>
     const apiURL = "https://script.google.com/macros/s/AKfycbwzRoFDEI8L9nznDjX0xRuLcmGvF4lVks3rM6uJVfQZ0y-6RNe5b8TCKSdMw0YTIvx9BQ/exec";
     const searchBtn = document.querySelector("button");
-
     async function searchData() {
       const code = document.getElementById("codeInput").value.trim();
       const resultDiv = document.getElementById("result");
@@ -305,11 +322,9 @@
       }
       searchBtn.disabled = false;
     }
-
     document.getElementById("codeInput").addEventListener("keypress", function(e) {
       if (e.key === "Enter") searchData();
     });
-
     const icons = {
       "الاسم": "👤",
       "تاريخ التعيين": "🗓",
@@ -320,7 +335,6 @@
       "كود الموظف": "🔑",
       "ساعات منصرفه يوليو": "🕐"
     };
-
     const originalSearchData = searchData;
     searchData = async function() {
       const resultDiv = document.getElementById("result");
@@ -338,7 +352,7 @@
           const label = row.querySelector("strong")?.innerText.replace(":", "").trim();
           const icon = icons[label] || "📌";
           row.querySelector(".icon").textContent = icon;
-          row.style.animationDelay = `${index * 0.1}s`;
+          row.style.animationDelay = `${index * 0.1}s`; // التأخير المتتابع
         });
         setTimeout(() => card.classList.add("show"), 50);
       }
