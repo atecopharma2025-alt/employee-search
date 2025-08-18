@@ -10,59 +10,41 @@
     body {
       margin: 0; min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: flex-start; padding: 20px;
-      color: white; position: relative;
+      color: white; position: relative; overflow-x: hidden;
+    }
+
+    /* خلفية بتدرجين بيتبدلوا بالـ opacity */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      transition: opacity 3s ease-in-out;
+    }
+    body::before {
       background: linear-gradient(-45deg, #fff3e6, #ffd4c4, #fff3e6, #ffd4c4);
-      background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-      overflow-x: hidden;
+      opacity: 1;
+    }
+    body::after {
+      background: linear-gradient(-45deg, #d2ffec, #9ffcb6, #d2ffec, #9ffcb6);
+      opacity: 0;
+      animation: gradientBG 15s ease infinite, fadeShift 20s ease-in-out infinite;
     }
 
-    /* وضع Light Mode */
-    @media (prefers-color-scheme: light) {
-      body {
-        background: 
-          linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)),
-          url('pattern.png');
-        background-blend-mode: overlay;
-        background-size: 400% 400%, 200px 200px;
-        animation: gradientBG 5s ease infinite, patternMove 30s linear infinite, colorShift 15s ease-in-out infinite;
-        color: #333;
-      }
-      input {
-        background: rgba(255, 255, 255, 0.8);
-        color: #333;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 6px;
-        outline: none;
-      }
-      .card {
-        color: #222;
-        text-shadow: none;
-      }
-    }
-
-    /* حركة الـ Gradient */
     @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
-    /* حركة الـ Pattern */
-    @keyframes patternMove {
-      0% { background-position: 0 0, 0 0; }
-      100% { background-position: 0 0, 200px 200px; }
+    @keyframes fadeShift {
+      0%, 100% { opacity: 0; }
+      50%      { opacity: 1; }
     }
 
-    /* Smooth Color Shift */
-    @keyframes colorShift {
-      0%   { background-image: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)); }
-      25%  { background-image: linear-gradient(135deg, rgba(210, 255, 236, 0.85), rgba(159, 252, 182, 0.85)); }
-      50%  { background-image: linear-gradient(135deg, rgba(236, 210, 255, 0.85), rgba(182, 159, 252, 0.85)); }
-      75%  { background-image: linear-gradient(135deg, rgba(255, 210, 236, 0.85), rgba(252, 159, 182, 0.85)); }
-      100% { background-image: linear-gradient(135deg, rgba(255, 236, 210, 0.85), rgba(252, 182, 159, 0.85)); }
-    }
-
+    /* الباترن */
     .bg-pattern {
       position: fixed;
       inset: 0;
@@ -71,7 +53,7 @@
       background-size: 180px 180px;
       opacity: 0.10;
       pointer-events: none;
-      z-index: 0;
+      z-index: -1;
       animation: movePattern 60s linear infinite;
     }
     @keyframes movePattern {
@@ -195,17 +177,8 @@
       text-shadow: 0 3px 6px rgba(0,0,0,0.7);
     }
 
-    /* إظهار الكارت */
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* إخفاء الكارت القديم */
-    .card.hide {
-      opacity: 0;
-      transform: translateY(20px);
-    }
+    .card.show { opacity: 1; transform: translateY(0); }
+    .card.hide { opacity: 0; transform: translateY(20px); }
 
     @keyframes cardGradient {
       0% { background-position: 0% 50%; }
@@ -228,10 +201,7 @@
     .card.show .data-row:nth-child(4) { animation-delay: 0.9s; }
 
     @keyframes fadeInRow {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .icon { font-size: 1.2rem; }
